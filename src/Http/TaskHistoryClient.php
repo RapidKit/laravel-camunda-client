@@ -25,9 +25,8 @@ class TaskHistoryClient extends CamundaClient
     }
 
     /**
-     * @param  string  $processInstanceId
-     *
      * @return TaskHistory[]
+     *
      * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
      */
     public static function getByProcessInstanceId(string $processInstanceId): array

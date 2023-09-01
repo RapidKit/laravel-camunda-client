@@ -9,7 +9,7 @@ afterEach(function () {
 
 it('should deploy bpmn', function () {
     $deploymentName = 'test';
-    $file = __DIR__ . '/../../resources/bpmn/simple.bpmn';
+    $file = __DIR__.'/../../resources/bpmn/simple.bpmn';
     $deployment = DeploymentClient::create($deploymentName, $file);
 
     expect($deployment->name)->toBe($deploymentName);
@@ -18,7 +18,7 @@ it('should deploy bpmn', function () {
 it('can deploy bpmn with tenant_id', function () {
     $deploymentName = 'test-tenant-id';
     $tenantID = 'sample-tenant';
-    $file = __DIR__ . '/../../resources/bpmn/simple.bpmn';
+    $file = __DIR__.'/../../resources/bpmn/simple.bpmn';
 
     config()->set('camunda-client.tenant_id', $tenantID);
 
@@ -31,9 +31,9 @@ it('can deploy bpmn with tenant_id', function () {
 it('can deploy multiple bpmn', function () {
     $deploymentName = 'test';
     $files = [
-        __DIR__ . '/../../resources/bpmn/external-task.bpmn',
-        __DIR__ . '/../../resources/bpmn/simple.bpmn',
-        __DIR__ . '/../../resources/bpmn/simple2.bpmn',
+        __DIR__.'/../../resources/bpmn/external-task.bpmn',
+        __DIR__.'/../../resources/bpmn/simple.bpmn',
+        __DIR__.'/../../resources/bpmn/simple2.bpmn',
     ];
 
     $deployment = DeploymentClient::create('test', $files);
@@ -43,14 +43,14 @@ it('can deploy multiple bpmn', function () {
 it("can't deploy invalid bpmn", function () {
     $this->expectException(\BeyondCRUD\LaravelCamundaClient\Exceptions\ParseException::class);
 
-    $files = __DIR__ . '/../../resources/bpmn/invalid.bpmn';
+    $files = __DIR__.'/../../resources/bpmn/invalid.bpmn';
 
     DeploymentClient::create('test', $files);
 });
 
 it('can get deployment by id', function () {
     $deploymentName = 'test';
-    $file = __DIR__ . '/../../resources/bpmn/simple.bpmn';
+    $file = __DIR__.'/../../resources/bpmn/simple.bpmn';
     $deployment = DeploymentClient::create($deploymentName, $file);
 
     expect(DeploymentClient::find($deployment->id)->id)->toBe($deployment->id);
@@ -64,13 +64,13 @@ it("can't get deployment by invalid id", function () {
 
 it('can get list deployment', function () {
     $deploymentName = 'test';
-    $file = __DIR__ . '/../../resources/bpmn/simple.bpmn';
+    $file = __DIR__.'/../../resources/bpmn/simple.bpmn';
 
     DeploymentClient::create($deploymentName, $file);
 
     expect(DeploymentClient::get())->toHaveCount(1);
 
-    $file = __DIR__ . '/../../resources/bpmn/simple2.bpmn';
+    $file = __DIR__.'/../../resources/bpmn/simple2.bpmn';
 
     DeploymentClient::create($deploymentName, $file);
 
@@ -79,7 +79,7 @@ it('can get list deployment', function () {
 
 it('can delete deployment', function () {
     $deploymentName = 'test';
-    $file = __DIR__ . '/../../resources/bpmn/simple.bpmn';
+    $file = __DIR__.'/../../resources/bpmn/simple.bpmn';
     $deployment = DeploymentClient::create($deploymentName, $file);
 
     expect(DeploymentClient::delete($deployment->id))->toBeTrue();
@@ -92,13 +92,13 @@ it("can't delete invalid deployment", function () {
 });
 
 it('can truncate deployment', function () {
-    DeploymentClient::create('test1', __DIR__ . '/../../resources/bpmn/external-task.bpmn');
+    DeploymentClient::create('test1', __DIR__.'/../../resources/bpmn/external-task.bpmn');
 
     expect(DeploymentClient::get())->toHaveCount(1);
 
     DeploymentClient::create('test2', [
-        __DIR__ . '/../../resources/bpmn/simple.bpmn',
-        __DIR__ . '/../../resources/bpmn/simple2.bpmn',
+        __DIR__.'/../../resources/bpmn/simple.bpmn',
+        __DIR__.'/../../resources/bpmn/simple2.bpmn',
     ]);
 
     expect(DeploymentClient::get())->toHaveCount(2);

@@ -2,9 +2,9 @@
 
 namespace BeyondCRUD\LaravelCamundaClient\Tests;
 
+use BeyondCRUD\LaravelCamundaClient\LaravelCamundaClientServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use BeyondCRUD\LaravelCamundaClient\LaravelCamundaClientServiceProvider;
 
 class TestCase extends Orchestra
 {

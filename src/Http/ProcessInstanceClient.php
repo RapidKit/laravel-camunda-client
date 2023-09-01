@@ -36,7 +36,6 @@ class ProcessInstanceClient extends CamundaClient
          * `operator` can only contain _eq_, _neq_, _gt_, _gte_, _lt_, _lte_
          * Check Camunda documentation for more information
          */
-
         $instances = [];
 
         if (count($variables) > 0) {
@@ -66,23 +65,22 @@ class ProcessInstanceClient extends CamundaClient
         return new ProcessInstance($response->json());
     }
 
-
     public static function findByBusniessKey(string $businessKey): ProcessInstance
     {
 
-        $response = self::make()->get("process-instance?businessKey=" . $businessKey);
+        $response = self::make()->get('process-instance?businessKey='.$businessKey);
 
         if ($response->status() === 404) {
             throw new ObjectNotFoundException($response->json('message'));
         }
 
-        $data =  $response->json();
+        $data = $response->json();
 
-        if(sizeof($data) ==  0) {
-            throw new ObjectNotFoundException("Process Instance Not Found");
+        if (count($data) == 0) {
+            throw new ObjectNotFoundException('Process Instance Not Found');
         }
 
-        return new ProcessInstance($data[sizeof($data) -1 ]);
+        return new ProcessInstance($data[count($data) - 1]);
     }
 
     public static function variables(string $id): array

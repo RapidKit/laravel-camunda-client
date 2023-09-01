@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace BeyondCRUD\LaravelCamundaClient\Http;
 
-use Laravolt\Camunda\Dto\Deployment;
 use BeyondCRUD\LaravelCamundaClient\Data\DeploymentData;
 use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
 use BeyondCRUD\LaravelCamundaClient\Exceptions\ParseException;
@@ -74,7 +73,7 @@ class DeploymentClient extends CamundaClient
     public static function delete(string $id, bool $cascade = false): bool
     {
         $cascadeFlag = $cascade ? 'cascade=true' : '';
-        $response = self::make()->delete("deployment/{$id}?" . $cascadeFlag);
+        $response = self::make()->delete("deployment/{$id}?".$cascadeFlag);
 
         if ($response->status() === 404) {
             throw new ObjectNotFoundException($response->json('message'));

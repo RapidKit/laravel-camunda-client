@@ -16,8 +16,7 @@ class ExternalTaskClient extends CamundaClient
     }
 
     /**
-     * @param string $topic
-     * @param class-string|array $job
+     * @param  class-string|array  $job
      */
     public static function subscribe(string $topic, string|array $job): void
     {
@@ -29,9 +28,9 @@ class ExternalTaskClient extends CamundaClient
     }
 
     /**
-     * @param string $processInstanceId
-     *
+     * @param  string  $processInstanceId
      * @return ExternalTask[]
+     *
      * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
      */
     public static function getByProcessInstanceId(string $id): array
@@ -49,11 +48,8 @@ class ExternalTaskClient extends CamundaClient
     }
 
     /**
-     * @param string $workerId
-     * @param array $topics
-     * @param int $maxTasks
-     *
      * @return ExternalTask[]
+     *
      * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
      */
     public static function fetchAndLock(string $workerId, array $topics, int $maxTasks = 10): array
@@ -64,7 +60,7 @@ class ExternalTaskClient extends CamundaClient
             'topics' => $topics,
         ];
 
-        $response = self::make()->post("external-task/fetchAndLock", $payload);
+        $response = self::make()->post('external-task/fetchAndLock', $payload);
 
         if ($response->successful()) {
             $data = [];
@@ -102,27 +98,24 @@ class ExternalTaskClient extends CamundaClient
         return $isSuccessful;
     }
 
-
     public static function fail(
         string $id,
         string $workerId,
-        string $errorMessage = "Does not compute",
-        int    $retryTimeout = 60000,
-    ): bool
-    {
+        string $errorMessage = 'Does not compute',
+        int $retryTimeout = 60000,
+    ): bool {
 
         $payload = compact('workerId', 'errorMessage', 'retryTimeout');
         $url = "external-task/$id/failure";
         $response = self::make()->post($url, $payload);
         $isSuccessful = $response->status() === 204;
 
-        if (!$isSuccessful) {
+        if (! $isSuccessful) {
             throw (new UnexpectedResponseException)->for($url, $payload, $response->json());
         }
 
         return $isSuccessful;
     }
-
 
     public static function unlock(string $id): bool
     {

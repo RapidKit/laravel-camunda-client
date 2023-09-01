@@ -33,7 +33,7 @@ class TenantClient extends CamundaClient
     public static function create(string $id, string $name): bool
     {
         $response = self::make()->post(
-            "tenant/create",
+            'tenant/create',
             compact('id', 'name')
         );
 

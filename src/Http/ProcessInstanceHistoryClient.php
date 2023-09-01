@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace BeyondCRUD\LaravelCamundaClient\Http;
 
-use Laravolt\Camunda\Dto\ProcessInstance;
 use Laravolt\Camunda\Dto\ProcessInstanceHistory;
 use Laravolt\Camunda\Dto\Variable;
 use Laravolt\Camunda\Exceptions\ObjectNotFoundException;
-use Spatie\DataTransferObject\DataTransferObject;
 
 class ProcessInstanceHistoryClient extends CamundaClient
 {
     /**
-     * @param  array  $parameters
-     *
      * @return array|ProcessInstanceHistory[]
+     *
      * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
      */
     public static function get(array $parameters = []): array
@@ -29,9 +26,6 @@ class ProcessInstanceHistoryClient extends CamundaClient
     }
 
     /**
-     * @param  string  $id
-     *
-     * @return \Laravolt\Camunda\Dto\ProcessInstanceHistory
      * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
      */
     public static function find(string $id): ProcessInstanceHistory
@@ -47,7 +41,7 @@ class ProcessInstanceHistoryClient extends CamundaClient
 
     public static function variables(string $id): array
     {
-        $variables = self::make()->get("history/variable-instance", ['processInstanceId' => $id])->json();
+        $variables = self::make()->get('history/variable-instance', ['processInstanceId' => $id])->json();
 
         return collect($variables)->mapWithKeys(
             fn ($data) => [$data['name'] => new Variable(name: $data['name'], value: $data['value'], type: $data['type'])]

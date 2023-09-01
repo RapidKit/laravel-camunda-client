@@ -13,17 +13,17 @@ class ProcessDefinitionClient extends CamundaClient
 {
     public static function start(...$args): ProcessInstance
     {
-        $variables = $args['variables'] ?? (object)[];
+        $variables = $args['variables'] ?? (object) [];
         $businessKey = $args['businessKey'] ?? null;
-//
-//        // At least one value must be set...
-//        if (empty($variables)) {
-//            throw new InvalidArgumentException('Cannot start process instance with empty variables');
-//        }
+        //
+        //        // At least one value must be set...
+        //        if (empty($variables)) {
+        //            throw new InvalidArgumentException('Cannot start process instance with empty variables');
+        //        }
 
         $payload = [];
 
-        if (!empty($variables)) {
+        if (! empty($variables)) {
             $payload['variables'] = $variables;
             $payload['withVariablesInReturn'] = true;
         }

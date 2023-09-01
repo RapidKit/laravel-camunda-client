@@ -2,9 +2,9 @@
 
 namespace BeyondCRUD\LaravelCamundaClient;
 
+use BeyondCRUD\LaravelCamundaClient\Commands\LaravelCamundaClientCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use BeyondCRUD\LaravelCamundaClient\Commands\LaravelCamundaClientCommand;
 
 class LaravelCamundaClientServiceProvider extends PackageServiceProvider
 {
