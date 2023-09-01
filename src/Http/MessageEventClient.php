@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Laravolt\Camunda\Http;
+namespace BeyondCRUD\LaravelCamundaClient\Http;
 
 use Illuminate\Support\Str;
 use Laravolt\Camunda\Dto\ProcessDefinition;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravolt\Camunda\Http;
+namespace BeyondCRUD\LaravelCamundaClient\Http;
 
 use Illuminate\Support\Arr;
 use Laravolt\Camunda\Dto\TaskHistory;

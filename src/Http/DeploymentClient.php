@@ -2,15 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Laravolt\Camunda\Http;
+namespace BeyondCRUD\LaravelCamundaClient\Http;
 
 use Laravolt\Camunda\Dto\Deployment;
-use Laravolt\Camunda\Exceptions\ObjectNotFoundException;
-use Laravolt\Camunda\Exceptions\ParseException;
+use BeyondCRUD\LaravelCamundaClient\Data\DeploymentData;
+use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
+use BeyondCRUD\LaravelCamundaClient\Exceptions\ParseException;
 
 class DeploymentClient extends CamundaClient
 {
-    public static function create(string $name, string|array $bpmnFiles): Deployment
+    public static function create(string $name, string|array $bpmnFiles): DeploymentData
     {
         $multipart = [
             ['name' => 'deployment-name', 'contents' => $name],
@@ -18,10 +19,10 @@ class DeploymentClient extends CamundaClient
             ['name' => 'enable-duplicate-filtering', 'contents' => 'true'],
         ];
 
-        if (config('services.camunda.tenant_id')) {
+        if (config('camunda-client.tenant_id')) {
             $multipart[] = [
                 'name' => 'tenant-id',
-                'contents' => config('services.camunda.tenant_id'),
+                'contents' => config('camunda-client.tenant_id'),
             ];
         }
 
@@ -37,10 +38,10 @@ class DeploymentClient extends CamundaClient
             throw new ParseException($response->json('message'));
         }
 
-        return new Deployment($response->json());
+        return DeploymentData::fromResponse($response);
     }
 
-    public static function find(string $id): Deployment
+    public static function find(string $id): DeploymentData
     {
         $response = self::make()->get("deployment/$id");
 
@@ -48,7 +49,7 @@ class DeploymentClient extends CamundaClient
             throw new ObjectNotFoundException($response->json('message'));
         }
 
-        return new Deployment($response->json());
+        return DeploymentData::fromResponse($response);
     }
 
     public static function get(array $parameters = []): array
@@ -56,7 +57,7 @@ class DeploymentClient extends CamundaClient
         $response = self::make()->get('deployment', $parameters);
         $result = [];
         foreach ($response->json() as $data) {
-            $result[] = new Deployment($data);
+            $result[] = DeploymentData::fromArray($data);
         }
 
         return $result;
@@ -73,7 +74,7 @@ class DeploymentClient extends CamundaClient
     public static function delete(string $id, bool $cascade = false): bool
     {
         $cascadeFlag = $cascade ? 'cascade=true' : '';
-        $response = self::make()->delete("deployment/{$id}?".$cascadeFlag);
+        $response = self::make()->delete("deployment/{$id}?" . $cascadeFlag);
 
         if ($response->status() === 404) {
             throw new ObjectNotFoundException($response->json('message'));

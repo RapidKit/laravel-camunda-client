@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravolt\Camunda\Exceptions;
+namespace BeyondCRUD\LaravelCamundaClient\Exceptions;
 
 class UnexpectedResponseException extends CamundaException
 {
@@ -8,7 +8,7 @@ class UnexpectedResponseException extends CamundaException
     protected array $payload;
     protected array $response;
 
-    public static function for(string $url, array $payload, array $response)
+    public static function for(string $url, array $payload, array $response): self
     {
         $instance = new static('Error processing request', $response['code'] ?? 0);
         $instance->url = $url;
@@ -18,7 +18,7 @@ class UnexpectedResponseException extends CamundaException
         return $instance;
     }
 
-    public function context()
+    public function context(): array
     {
         return [
             'url' => $this->url,

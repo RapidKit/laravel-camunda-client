@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Laravolt\Camunda\Http;
+namespace BeyondCRUD\LaravelCamundaClient\Http;
 
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
@@ -12,7 +12,7 @@ class CamundaClient
 {
     public static function make(): PendingRequest
     {
-        return Http::baseUrl(config('services.camunda.url'));
+        return Http::baseUrl(config('camunda-client.url'));
     }
 
     protected static function makeIdentifierPath(string $path, array $args): string

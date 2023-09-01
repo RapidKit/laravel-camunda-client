@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Laravolt\Camunda\Http;
+namespace BeyondCRUD\LaravelCamundaClient\Http;
 
 use Laravolt\Camunda\Dto\ProcessInstance;
 use Laravolt\Camunda\Dto\Variable;

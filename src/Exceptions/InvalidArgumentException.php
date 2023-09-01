@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravolt\Camunda\Exceptions;
+namespace BeyondCRUD\LaravelCamundaClient\Exceptions;
 
 class InvalidArgumentException extends CamundaException
 {

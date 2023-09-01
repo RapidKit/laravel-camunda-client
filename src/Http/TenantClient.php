@@ -1,6 +1,6 @@
 <?php
 
-namespace Laravolt\Camunda\Http;
+namespace BeyondCRUD\LaravelCamundaClient\Http;
 
 use Laravolt\Camunda\Dto\Tenant;
 use Laravolt\Camunda\Exceptions\CamundaException;
