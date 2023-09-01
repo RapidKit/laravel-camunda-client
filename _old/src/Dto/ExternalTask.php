@@ -16,32 +16,32 @@ class ExternalTask extends DataTransferObject
 
     public string $topicName;
 
-    public string|null $workerId;
+    public ?string $workerId;
 
-    public string|null $activityId;
+    public ?string $activityId;
 
-    public string|null $activityInstanceId;
+    public ?string $activityInstanceId;
 
-    public string|null $errorMessage;
+    public ?string $errorMessage;
 
-    public string|null $errorDetails;
+    public ?string $errorDetails;
 
-    public string|null $executionId;
+    public ?string $executionId;
 
-    public string|null $businessKey;
+    public ?string $businessKey;
 
     #[CastWith(CarbonCaster::class)]
-    public Carbon|null $lockExpirationTime;
+    public ?Carbon $lockExpirationTime;
 
     public string $processDefinitionId;
 
     public string $processDefinitionKey;
 
-    public string|null $processDefinitionVersionTag;
+    public ?string $processDefinitionVersionTag;
 
     public string $processInstanceId;
 
-    public string|null $tenantId;
+    public ?string $tenantId;
 
     public ?int $retries;
 
@@ -49,9 +49,9 @@ class ExternalTask extends DataTransferObject
 
     /** @var \Laravolt\Camunda\Dto\Variable[] */
     #[CastWith(VariablesCaster::class, Variable::class)]
-    public array|null $variables;
+    public ?array $variables;
 
     public bool $suspended;
 
-    public array|null $extensionProperties;
+    public ?array $extensionProperties;
 }

@@ -12,7 +12,7 @@ class ProcessDefinition extends DataTransferObject
 {
     public string $id;
 
-    public string|null $tenantId;
+    public ?string $tenantId;
 
     public string $key;
 

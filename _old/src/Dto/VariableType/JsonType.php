@@ -13,7 +13,7 @@ class JsonType
     {
         return [
             'value' => json_encode($value, JSON_THROW_ON_ERROR),
-            'type' => 'Json'
+            'type' => 'Json',
         ];
     }
 }

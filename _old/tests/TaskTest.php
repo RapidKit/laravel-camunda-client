@@ -29,7 +29,7 @@ class TaskTest extends TestCase
             $this->assertEquals($task->id, $tastObject->id);
         }
     }
-    
+
     public function test_find_by_ids()
     {
         $variables = ['title' => ['value' => 'Foo', 'type' => 'string']];
@@ -41,7 +41,6 @@ class TaskTest extends TestCase
             $this->assertEquals($task->id, $tastObject->id);
         }
     }
-    
 
     public function test_find_by_ids_is_empty()
     {

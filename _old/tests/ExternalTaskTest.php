@@ -21,7 +21,7 @@ class ExternalTaskTest extends TestCase
     {
         $this->createExternalProcess();
         $topics = [
-            ['topicName' => 'pdf', 'lockDuration' => 600_000]
+            ['topicName' => 'pdf', 'lockDuration' => 600_000],
         ];
         $externalTasks = ExternalTaskClient::fetchAndLock('worker1', $topics);
         $this->assertCount(1, $externalTasks);
@@ -31,7 +31,7 @@ class ExternalTaskTest extends TestCase
     {
         $this->createExternalProcess();
         $topics = [
-            ['topicName' => 'pdf', 'lockDuration' => 600_000]
+            ['topicName' => 'pdf', 'lockDuration' => 600_000],
         ];
         $externalTasks = ExternalTaskClient::fetchAndLock('worker1', $topics);
         $this->assertCount(1, $externalTasks);
@@ -44,7 +44,7 @@ class ExternalTaskTest extends TestCase
     {
         $processInstance = $this->createExternalProcess();
         $topics = [
-            ['topicName' => 'pdf', 'lockDuration' => 600_000]
+            ['topicName' => 'pdf', 'lockDuration' => 600_000],
         ];
         $externalTasks = ExternalTaskClient::fetchAndLock('worker1', $topics);
         $this->assertCount(1, $externalTasks);
@@ -66,7 +66,7 @@ class ExternalTaskTest extends TestCase
     {
         $this->createExternalProcess();
         $topics = [
-            ['topicName' => 'pdf', 'lockDuration' => 600_000]
+            ['topicName' => 'pdf', 'lockDuration' => 600_000],
         ];
         $externalTasks = ExternalTaskClient::fetchAndLock('worker1', $topics);
         $task = $externalTasks[0];

@@ -14,9 +14,9 @@ class ProcessInstance extends DataTransferObject
 {
     public string $id;
 
-    public string|null $tenantId;
+    public ?string $tenantId;
 
-    public string|null $businessKey;
+    public ?string $businessKey;
 
     public array $links;
 
@@ -28,7 +28,7 @@ class ProcessInstance extends DataTransferObject
 
     public bool $suspended;
 
-    /** @var \Laravolt\Camunda\Dto\Variable[]  */
+    /** @var \Laravolt\Camunda\Dto\Variable[] */
     #[CastWith(VariablesCaster::class, Variable::class)]
-    public array|null $variables;
+    public ?array $variables;
 }

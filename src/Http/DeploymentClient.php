@@ -85,7 +85,7 @@ class DeploymentClient extends CamundaClient
     public static function delete(string $id, bool $cascade = false): bool
     {
         $cascadeFlag = $cascade ? 'cascade=true' : '';
-        $response = self::make()->delete("deployment/{$id}?" . $cascadeFlag);
+        $response = self::make()->delete("deployment/{$id}?".$cascadeFlag);
 
         if ($response->status() === 404) {
             /** @var string */

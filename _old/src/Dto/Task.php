@@ -15,27 +15,27 @@ class Task extends DataTransferObject
 
     public string $name;
 
-    public string|null $assignee;
+    public ?string $assignee;
 
     #[CastWith(CarbonCaster::class)]
     public Carbon $created;
 
     #[CastWith(CarbonCaster::class)]
-    public Carbon|null $lastUpdated;
+    public ?Carbon $lastUpdated;
 
-    public string|null $due;
+    public ?string $due;
 
-    public string|null $followUp;
+    public ?string $followUp;
 
-    public string|null $delegationState;
+    public ?string $delegationState;
 
-    public string|null $description;
+    public ?string $description;
 
     public string $executionId;
 
-    public string|null $owner;
+    public ?string $owner;
 
-    public string|null $parentTaskId;
+    public ?string $parentTaskId;
 
     public string $priority;
 
@@ -45,17 +45,17 @@ class Task extends DataTransferObject
 
     public string $taskDefinitionKey;
 
-    public string|null $caseExecutionId;
+    public ?string $caseExecutionId;
 
-    public string|null $caseInstanceId;
+    public ?string $caseInstanceId;
 
-    public string|null $caseDefinitionId;
+    public ?string $caseDefinitionId;
 
     public bool $suspended;
 
-    public string|null $formKey;
+    public ?string $formKey;
 
-    public array|null $camundaFormRef;
+    public ?array $camundaFormRef;
 
-    public string|null $tenantId;
+    public ?string $tenantId;
 }
