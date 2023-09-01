@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace BeyondCRUD\LaravelCamundaClient\Http;
 
+use BeyondCRUD\LaravelCamundaClient\Exceptions\InvalidArgumentException;
 use Illuminate\Support\Str;
 use Laravolt\Camunda\Dto\ProcessInstance;
-use Laravolt\Camunda\Exceptions\InvalidArgumentException;
 
 class MessageEventClient extends CamundaClient
 {
@@ -40,11 +40,8 @@ class MessageEventClient extends CamundaClient
         $response = self::make()->post('message', $payload);
         if ($response->successful()) {
             return ProcessInstanceClient::findByBusniessKey($businessKey);
-            //            return new ProcessInstance($response->json());
-            //            return true;
         }
 
         throw new InvalidArgumentException($response->body());
-        //        return  false;
     }
 }

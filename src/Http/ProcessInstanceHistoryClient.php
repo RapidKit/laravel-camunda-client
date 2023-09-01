@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace BeyondCRUD\LaravelCamundaClient\Http;
 
+use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
 use Laravolt\Camunda\Dto\ProcessInstanceHistory;
 use Laravolt\Camunda\Dto\Variable;
-use Laravolt\Camunda\Exceptions\ObjectNotFoundException;
 
 class ProcessInstanceHistoryClient extends CamundaClient
 {

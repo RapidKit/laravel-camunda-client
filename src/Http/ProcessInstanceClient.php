@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace BeyondCRUD\LaravelCamundaClient\Http;
 
+use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
 use Laravolt\Camunda\Dto\ProcessInstance;
 use Laravolt\Camunda\Dto\Variable;
-use Laravolt\Camunda\Exceptions\ObjectNotFoundException;
 
 class ProcessInstanceClient extends CamundaClient
 {
@@ -23,18 +23,7 @@ class ProcessInstanceClient extends CamundaClient
     public static function getByVariables(array $variables = []): array
     {
         /**
-         *  $variables = [
-         *       [
-         *          'name' => 'varname',
-         *          'operator' => "_eq_",
-         *          'value' => 'varvalue',
-         *       ],
-         *   ];
-         */
-
-        /**
-         * `operator` can only contain _eq_, _neq_, _gt_, _gte_, _lt_, _lte_
-         * Check Camunda documentation for more information
+         * operator can only contain _eq_, _neq_, _gt_, _gte_, _lt_, _lte_. Check Camunda documentation for more information
          */
         $instances = [];
 

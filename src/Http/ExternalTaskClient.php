@@ -2,9 +2,9 @@
 
 namespace BeyondCRUD\LaravelCamundaClient\Http;
 
+use BeyondCRUD\LaravelCamundaClient\Exceptions\CamundaException;
+use BeyondCRUD\LaravelCamundaClient\Exceptions\UnexpectedResponseException;
 use Laravolt\Camunda\Dto\ExternalTask;
-use Laravolt\Camunda\Exceptions\CamundaException;
-use Laravolt\Camunda\Exceptions\UnexpectedResponseException;
 
 class ExternalTaskClient extends CamundaClient
 {

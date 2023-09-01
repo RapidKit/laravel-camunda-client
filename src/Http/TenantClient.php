@@ -2,9 +2,9 @@
 
 namespace BeyondCRUD\LaravelCamundaClient\Http;
 
+use BeyondCRUD\LaravelCamundaClient\Exceptions\CamundaException;
+use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
 use Laravolt\Camunda\Dto\Tenant;
-use Laravolt\Camunda\Exceptions\CamundaException;
-use Laravolt\Camunda\Exceptions\ObjectNotFoundException;
 
 class TenantClient extends CamundaClient
 {

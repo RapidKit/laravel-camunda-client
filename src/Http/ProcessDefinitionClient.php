@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace BeyondCRUD\LaravelCamundaClient\Http;
 
+use BeyondCRUD\LaravelCamundaClient\Exceptions\InvalidArgumentException;
+use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
 use Laravolt\Camunda\Dto\ProcessDefinition;
 use Laravolt\Camunda\Dto\ProcessInstance;
-use Laravolt\Camunda\Exceptions\InvalidArgumentException;
-use Laravolt\Camunda\Exceptions\ObjectNotFoundException;
 
 class ProcessDefinitionClient extends CamundaClient
 {
@@ -15,12 +15,6 @@ class ProcessDefinitionClient extends CamundaClient
     {
         $variables = $args['variables'] ?? (object) [];
         $businessKey = $args['businessKey'] ?? null;
-        //
-        //        // At least one value must be set...
-        //        if (empty($variables)) {
-        //            throw new InvalidArgumentException('Cannot start process instance with empty variables');
-        //        }
-
         $payload = [];
 
         if (! empty($variables)) {

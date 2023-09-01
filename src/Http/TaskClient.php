@@ -2,11 +2,11 @@
 
 namespace BeyondCRUD\LaravelCamundaClient\Http;
 
+use BeyondCRUD\LaravelCamundaClient\Exceptions\CamundaException;
+use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
 use Laravolt\Camunda\Dto\Casters\VariablesCaster;
 use Laravolt\Camunda\Dto\Task;
 use Laravolt\Camunda\Dto\Variable;
-use Laravolt\Camunda\Exceptions\CamundaException;
-use Laravolt\Camunda\Exceptions\ObjectNotFoundException;
 
 class TaskClient extends CamundaClient
 {
