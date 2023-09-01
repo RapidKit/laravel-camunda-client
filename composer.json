@@ -1,21 +1,31 @@
 {
     "name": "beyondcrud/laravel-camunda-client",
-    "description": "This is my package laravel-camunda-client",
+    "description": "High level model, something like Eloquent, to interact with Camunda resources via REST API.",
     "keywords": [
         "beyondCRUD",
         "laravel",
-        "laravel-camunda-client"
+        "laravolt",
+        "camunda",
+        "camunda client"
     ],
     "homepage": "https://github.com/beyondcrud/laravel-camunda-client",
     "license": "MIT",
     "authors": [
         {
+            "name": "Bayu Hendra Winata",
+            "email": "uyab.exe@gmail.com",
+            "homepage": "https://laravolt.dev",
+            "role": "Developer"
+        },
+        {
             "name": "rama",
             "email": "rama@qisthi.dev",
+            "homepage": "https://qisthi.dev",
             "role": "Developer"
         }
     ],
     "require": {
+        "ext-simplexml": "*",
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.8",
         "illuminate/contracts": "^10.0",
