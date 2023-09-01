@@ -2,15 +2,14 @@
 
 namespace BeyondCRUD\LaravelCamundaClient\Http;
 
+use BeyondCRUD\LaravelCamundaClient\Data\TaskData;
 use BeyondCRUD\LaravelCamundaClient\Exceptions\CamundaException;
 use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
 use Laravolt\Camunda\Dto\Casters\VariablesCaster;
-use Laravolt\Camunda\Dto\Task;
-use Laravolt\Camunda\Dto\Variable;
 
 class TaskClient extends CamundaClient
 {
-    public static function find(string $id): Task
+    public static function find(string $id): TaskData
     {
         $response = self::make()->get("task/$id");
 
@@ -18,53 +17,44 @@ class TaskClient extends CamundaClient
             throw new ObjectNotFoundException($response->json('message'));
         }
 
-        return new Task($response->json());
+        /** @var array */
+        $payload = $response->json();
+
+        return new TaskData(...$payload);
     }
 
-    /**
-     * @param  string  $processInstanceId
-     * @return Task[]
-     *
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
-     */
     public static function getByProcessInstanceId(string $id): array
     {
         $response = self::make()->get("task?processInstanceId=$id");
 
         $data = [];
         if ($response->successful()) {
-            foreach ($response->json() as $task) {
-                $data[] = new Task($task);
+            /** @var array */
+            $array = $response->json();
+            foreach ($array as $task) {
+                $data[] = new TaskData(...$task);
             }
         }
 
         return $data;
     }
 
-    /**
-     * @return Task[]
-     *
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
-     */
     public static function get(array $payload): array
     {
         $response = self::make()->get('task', $payload);
 
         $data = [];
         if ($response->successful()) {
-            foreach ($response->json() as $task) {
-                $data[] = new Task($task);
+            /** @var array */
+            $array = $response->json();
+            foreach ($array as $task) {
+                $data[] = new TaskData(...$task);
             }
         }
 
         return $data;
     }
 
-    /**
-     * @return Task[]
-     *
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
-     */
     public static function unfinishedTask(array $payload): array
     {
         $payload['unfinished'] = true;
@@ -72,20 +62,16 @@ class TaskClient extends CamundaClient
         return self::get($payload);
     }
 
-    /**
-     * @param  string  $processInstanceIds
-     * @return Task[]
-     *
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
-     */
     public static function getByProcessInstanceIds(array $ids): array
     {
         $response = self::make()->get('task?processInstanceIdIn='.implode(',', $ids));
 
         $data = [];
         if ($response->successful()) {
-            foreach ($response->json() as $task) {
-                $data[] = new Task($task);
+            /** @var array */
+            $array = $response->json();
+            foreach ($array as $task) {
+                $data[] = new TaskData(...$task);
             }
         }
 
@@ -129,12 +115,6 @@ class TaskClient extends CamundaClient
         return false;
     }
 
-    /**
-     * @param  string  $processInstanceIds
-     * @return Task[]
-     *
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
-     */
     public static function getByAssignedAndProcessInstanceId($user_id, array $ids = []): array
     {
         $payload = [
@@ -148,8 +128,10 @@ class TaskClient extends CamundaClient
 
         $data = [];
         if ($response->successful()) {
-            foreach ($response->json() as $task) {
-                $data[] = new Task($task);
+            /** @var array */
+            $array = $response->json();
+            foreach ($array as $task) {
+                $data[] = new TaskData(...$task);
             }
         }
 

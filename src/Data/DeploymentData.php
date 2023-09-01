@@ -23,8 +23,9 @@ class DeploymentData extends Data
     ) {
     }
 
-    public static function fromResponse(Response $response): static
+    public static function fromResponse(Response $response): self
     {
+        /** @var array[string, mixed] */
         $payloads = $response->json();
 
         $payloads['deploymentTime'] = Carbon::parse($payloads['deploymentTime']);
@@ -36,7 +37,7 @@ class DeploymentData extends Data
         return new self(...$payloads);
     }
 
-    public static function fromArray(array $data): static
+    public static function fromArray(array $data): self
     {
         $data['deploymentTime'] = Carbon::parse($data['deploymentTime']);
 

@@ -2,14 +2,14 @@
 
 namespace BeyondCRUD\LaravelCamundaClient\Http;
 
+use BeyondCRUD\LaravelCamundaClient\Data\TaskHistoryData;
 use BeyondCRUD\LaravelCamundaClient\Exceptions\CamundaException;
 use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
 use Illuminate\Support\Arr;
-use Laravolt\Camunda\Dto\TaskHistory;
 
 class TaskHistoryClient extends CamundaClient
 {
-    public static function find(string $id): TaskHistory
+    public static function find(string $id): TaskHistoryData
     {
         $response = self::make()->get("history/task?taskId=$id");
 
@@ -18,17 +18,20 @@ class TaskHistoryClient extends CamundaClient
                 throw new ObjectNotFoundException(sprintf('Cannot find task history with ID = %s', $id));
             }
 
-            return new TaskHistory(Arr::first($response->json()));
+            /** @var array */
+            $array = $response->json();
+            /** @var array[string, mixed] */
+            $payloads = Arr::first($array);
+
+            return new TaskHistoryData(...$payloads);
         }
 
-        throw new CamundaException($response->json('message'));
+        /** @var string */
+        $message = $response->json('message');
+
+        throw new CamundaException($message);
     }
 
-    /**
-     * @return TaskHistory[]
-     *
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
-     */
     public static function getByProcessInstanceId(string $processInstanceId): array
     {
         $response = self::make()
@@ -42,8 +45,12 @@ class TaskHistoryClient extends CamundaClient
 
         if ($response->successful()) {
             $data = collect();
-            foreach ($response->json() as $task) {
-                $data->push(new TaskHistory($task));
+
+            /** @var array */
+            $array = $response->json();
+
+            foreach ($array as $task) {
+                $data->push(new TaskHistoryData(...$task));
             }
 
             return $data->sortBy('endTime')->toArray();

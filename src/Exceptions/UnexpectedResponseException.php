@@ -12,7 +12,7 @@ class UnexpectedResponseException extends CamundaException
 
     public static function for(string $url, array $payload, array $response): self
     {
-        $instance = new static('Error processing request', $response['code'] ?? 0);
+        $instance = new self('Error processing request', $response['code'] ?? 0);
         $instance->url = $url;
         $instance->payload = $payload;
         $instance->response = $response;

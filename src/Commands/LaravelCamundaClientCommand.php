@@ -10,7 +10,9 @@ class LaravelCamundaClientCommand extends Command
 
     public function handle(): int
     {
-        $this->comment(config('camunda-client.url'));
+        /** @var string */
+        $string = config('camunda-client.url');
+        $this->comment($string);
 
         return self::SUCCESS;
     }

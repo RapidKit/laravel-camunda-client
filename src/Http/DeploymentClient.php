@@ -12,9 +12,13 @@ class DeploymentClient extends CamundaClient
 {
     public static function create(string $name, string|array $bpmnFiles): DeploymentData
     {
+        /** @var string */
+        $appName = config('app.name');
+        /** @var string */
+        $appEnv = config('app.env');
         $multipart = [
             ['name' => 'deployment-name', 'contents' => $name],
-            ['name' => 'deployment-source', 'contents' => sprintf('%s (%s)', config('app.name'), config('app.env'))],
+            ['name' => 'deployment-source', 'contents' => sprintf('%s (%s)', $appName, $appEnv)],
             ['name' => 'enable-duplicate-filtering', 'contents' => 'true'],
         ];
 
@@ -28,13 +32,17 @@ class DeploymentClient extends CamundaClient
         $request = self::make()->asMultipart();
         foreach ((array) $bpmnFiles as $bpmn) {
             $filename = pathinfo($bpmn)['basename'];
-            $request->attach($filename, file_get_contents($bpmn), $filename);
+            /** @var string */
+            $content = file_get_contents($bpmn);
+            $request->attach($filename, $content, $filename);
         }
 
         $response = $request->post('deployment/create', $multipart);
 
         if ($response->status() === 400) {
-            throw new ParseException($response->json('message'));
+            /** @var string */
+            $message = $response->json('message');
+            throw new ParseException($message);
         }
 
         return DeploymentData::fromResponse($response);
@@ -45,7 +53,9 @@ class DeploymentClient extends CamundaClient
         $response = self::make()->get("deployment/$id");
 
         if ($response->status() === 404) {
-            throw new ObjectNotFoundException($response->json('message'));
+            /** @var string */
+            $message = $response->json('message');
+            throw new ObjectNotFoundException($message);
         }
 
         return DeploymentData::fromResponse($response);
@@ -55,7 +65,9 @@ class DeploymentClient extends CamundaClient
     {
         $response = self::make()->get('deployment', $parameters);
         $result = [];
-        foreach ($response->json() as $data) {
+        /** @var array[array] */
+        $array = $response->json();
+        foreach ($array as $data) {
             $result[] = DeploymentData::fromArray($data);
         }
 
@@ -73,10 +85,12 @@ class DeploymentClient extends CamundaClient
     public static function delete(string $id, bool $cascade = false): bool
     {
         $cascadeFlag = $cascade ? 'cascade=true' : '';
-        $response = self::make()->delete("deployment/{$id}?".$cascadeFlag);
+        $response = self::make()->delete("deployment/{$id}?" . $cascadeFlag);
 
         if ($response->status() === 404) {
-            throw new ObjectNotFoundException($response->json('message'));
+            /** @var string */
+            $message = $response->json('message');
+            throw new ObjectNotFoundException($message);
         }
 
         return $response->status() === 204;

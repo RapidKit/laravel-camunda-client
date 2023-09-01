@@ -2,29 +2,36 @@
 
 namespace BeyondCRUD\LaravelCamundaClient\Http;
 
+use BeyondCRUD\LaravelCamundaClient\Data\TenantData;
 use BeyondCRUD\LaravelCamundaClient\Exceptions\CamundaException;
 use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
-use Laravolt\Camunda\Dto\Tenant;
 
 class TenantClient extends CamundaClient
 {
-    public static function find(string $id): Tenant
+    public static function find(string $id): TenantData
     {
         $response = self::make()->get("tenant/$id");
 
         if ($response->status() === 404) {
-            throw new ObjectNotFoundException($response->json('message'));
+            /** @var string */
+            $message = $response->json('message');
+            throw new ObjectNotFoundException($message);
         }
 
-        return new Tenant($response->json());
+        /** @var array */
+        $payloads = $response->json();
+
+        return new TenantData(...$payloads);
     }
 
     public static function get(array $parameters = []): array
     {
         $response = self::make()->get('tenant', $parameters);
         $result = [];
-        foreach ($response->json() as $data) {
-            $result[] = new Tenant($data);
+        /** @var array */
+        $array = $response->json();
+        foreach ($array as $data) {
+            $result[] = new TenantData(...$data);
         }
 
         return $result;
@@ -49,7 +56,9 @@ class TenantClient extends CamundaClient
         $response = self::make()->delete("tenant/{$id}");
 
         if ($response->status() === 404) {
-            throw new ObjectNotFoundException($response->json('message'));
+            /** @var string */
+            $message = $response->json('message');
+            throw new ObjectNotFoundException($message);
         }
 
         return $response->status() === 204;
