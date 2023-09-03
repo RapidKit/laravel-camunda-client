@@ -1,15 +1,16 @@
 <?php
 
-namespace Laravolt\Camunda\Http;
+namespace BeyondCRUD\LaravelCamundaClient\Http;
 
+use BeyondCRUD\LaravelCamundaClient\Data\TaskHistoryData;
+use BeyondCRUD\LaravelCamundaClient\Exceptions\CamundaException;
+use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
 use Illuminate\Support\Arr;
-use Laravolt\Camunda\Dto\TaskHistory;
-use Laravolt\Camunda\Exceptions\CamundaException;
-use Laravolt\Camunda\Exceptions\ObjectNotFoundException;
+use Illuminate\Support\Collection;
 
 class TaskHistoryClient extends CamundaClient
 {
-    public static function find(string $id): TaskHistory
+    public static function find(string $id): TaskHistoryData
     {
         $response = self::make()->get("history/task?taskId=$id");
 
@@ -18,38 +19,41 @@ class TaskHistoryClient extends CamundaClient
                 throw new ObjectNotFoundException(sprintf('Cannot find task history with ID = %s', $id));
             }
 
-            return new TaskHistory(Arr::first($response->json()));
+            /** @var array */
+            $array = $response->json();
+
+            /** @var array[string, mixed] */
+            $payloads = Arr::first($array);
+
+            return TaskHistoryData::fromArray($payloads);
         }
 
-        throw new CamundaException($response->json('message'));
+        /** @var string */
+        $message = $response->json('message');
+
+        throw new CamundaException($message);
     }
 
     /**
-     * @param  string  $processInstanceId
-     *
-     * @return TaskHistory[]
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
+     * @return Collection<int, TaskHistoryData>
      */
-    public static function getByProcessInstanceId(string $processInstanceId): array
+    public static function getByProcessInstanceId(string $processInstanceId): Collection
     {
-        $response = self::make()
-            ->get(
-                'history/task',
-                [
-                    'processInstanceId' => $processInstanceId,
-                    'finished' => true,
-                ]
-            );
+        $response = self::make()->get('history/task', ['processInstanceId' => $processInstanceId, 'finished' => true]);
 
         if ($response->successful()) {
-            $data = collect();
-            foreach ($response->json() as $task) {
-                $data->push(new TaskHistory($task));
+            $data = [];
+
+            /** @var array */
+            $array = $response->json();
+
+            foreach ($array as $task) {
+                array_push($data, TaskHistoryData::fromArray($task));
             }
 
-            return $data->sortBy('endTime')->toArray();
+            return collect($data)->sortBy('endTime');
         }
 
-        return [];
+        return collect([]);
     }
 }

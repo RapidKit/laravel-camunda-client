@@ -1,23 +1,24 @@
 <?php
 
-declare(strict_types=1);
+namespace BeyondCRUD\LaravelCamundaClient\Http;
 
-namespace Laravolt\Camunda\Http;
-
+use BeyondCRUD\LaravelCamundaClient\Exceptions\InvalidArgumentException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
-use Laravolt\Camunda\Exceptions\InvalidArgumentException;
 
 class CamundaClient
 {
     public static function make(): PendingRequest
     {
-        return Http::baseUrl(config('services.camunda.url'));
+        /** @var string */
+        $url = config('camunda-client.url');
+
+        return Http::baseUrl($url);
     }
 
     protected static function makeIdentifierPath(string $path, array $args): string
     {
-        // If no named parameters defined, we assume it is an ID
+        // ff no named parameters defined, we assume it is an ID
         if (count($args) === 1 && isset($args[0])) {
             $args['id'] = $args[0];
         }
