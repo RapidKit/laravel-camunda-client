@@ -26,6 +26,8 @@ jobs:
     services:
       camunda:
         image: camunda/camunda-bpm-platform:latest
+        ports:
+          - 8080
 
     steps:
       - name: Checkout code
