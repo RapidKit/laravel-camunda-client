@@ -33,7 +33,7 @@ class BPMNReader
                     $array = $field->xpath('camunda:properties/camunda:property');
                     $properties = collect($array)
                         ->transform(fn ($node) => [
-                            (string) $node->attributes()->id => (string) $node->attributes()->value
+                            (string) $node->attributes()->id => (string) $node->attributes()->value,
                         ])
                         ->toArray();
 
