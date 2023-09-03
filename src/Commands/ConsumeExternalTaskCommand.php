@@ -20,11 +20,14 @@ class ConsumeExternalTaskCommand extends Command
         $subscribers = ExternalTaskClient::subscribers();
         $topics = [];
         $summary = [];
+        /** @var string */
         $workerId = $this->option('workerId');
 
         try {
             foreach ($subscribers as $topicName => $subscriber) {
-                $topics[$topicName] = collect($subscriber)->only(['topicName', 'lockDuration'])->toArray();
+                /** @var array */
+                $array = $subscriber;
+                $topics[$topicName] = collect($array)->only(['topicName', 'lockDuration'])->toArray();
                 $summary[$topicName] = [$topicName, $subscriber['job'] ?? '-', 0];
             }
             $externalTasks = ExternalTaskClient::fetchAndLock($workerId, array_values($topics));

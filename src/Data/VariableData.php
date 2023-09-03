@@ -10,7 +10,7 @@ class VariableData extends Data
     public function __construct(
         public string $name,
         public string $type,
-        public $value,
+        public mixed $value,
         public ?array $valueInfo = [],
     ) {
     }
@@ -20,6 +20,7 @@ class VariableData extends Data
      */
     public static function fromResponse(Response $res): array
     {
+        /** @var array<array> */
         $vars = $res->json();
 
         $result = [];

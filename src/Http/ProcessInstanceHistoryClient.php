@@ -9,13 +9,15 @@ use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
 class ProcessInstanceHistoryClient extends CamundaClient
 {
     /**
-     * @return ProcessInstanceHistory[]
+     * @return array<int<0, max>, ProcessInstanceHistoryData>
      */
     public static function get(array $parameters = []): array
     {
         $instances = [];
-        foreach (self::make()->get('history/process-instance', $parameters)->json() as $res) {
-            $instances[] = new ProcessInstanceHistoryData(...$res);
+        /** @var array<array> */
+        $array = self::make()->get('history/process-instance', $parameters)->json();
+        foreach ($array as $res) {
+            $instances[] = ProcessInstanceHistoryData::fromArray($res);
         }
 
         return $instances;
@@ -26,7 +28,9 @@ class ProcessInstanceHistoryClient extends CamundaClient
         $response = self::make()->get("history/process-instance/$id");
 
         if ($response->status() === 404) {
-            throw new ObjectNotFoundException($response->json('message'));
+            /** @var string */
+            $message = $response->json('message');
+            throw new ObjectNotFoundException($message);
         }
 
         /** @var array */

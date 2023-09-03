@@ -34,6 +34,9 @@ class TaskHistoryClient extends CamundaClient
         throw new CamundaException($message);
     }
 
+    /**
+     * @return Collection<int, TaskHistoryData>
+     */
     public static function getByProcessInstanceId(string $processInstanceId): Collection
     {
         $response = self::make()->get('history/task', ['processInstanceId' => $processInstanceId, 'finished' => true]);
@@ -51,6 +54,6 @@ class TaskHistoryClient extends CamundaClient
             return collect($data)->sortBy('endTime');
         }
 
-        return [];
+        return collect([]);
     }
 }

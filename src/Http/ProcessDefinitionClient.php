@@ -14,11 +14,12 @@ class ProcessDefinitionClient extends CamundaClient
      */
     public static function start(...$args): ProcessInstanceData
     {
-        $variables = $args['variables'] ?? (object) [];
+        /** @var array */
+        $variables = $args['variables'] ?? [];
         $businessKey = $args['businessKey'] ?? null;
         $payload = [];
 
-        if (! empty($variables)) {
+        if (! empty($variables) && count($variables) !== 0) {
             $payload['variables'] = $variables;
             $payload['withVariablesInReturn'] = true;
         }
@@ -38,29 +39,40 @@ class ProcessDefinitionClient extends CamundaClient
         throw new InvalidArgumentException($response->body());
     }
 
+    /**
+     * @param  array  $args
+     */
     public static function xml(...$args): string
     {
         $path = self::makeIdentifierPath(path: 'process-definition/{identifier}/xml', args: $args);
-
-        return self::make()->get($path)->json('bpmn20Xml');
+        /** @var string */
+        $string = self::make()->get($path)->json('bpmn20Xml');
+        return $string;
     }
 
     public static function get(array $parameters = []): array
     {
         $processDefinition = [];
-        foreach (self::make()->get('process-definition', $parameters)->json() as $res) {
-            $processDefinition[] = new ProcessDefinitionData(...$res);
+        /** @var array<array> */
+        $array = self::make()->get('process-definition', $parameters)->json();
+        foreach ($array as $res) {
+            $processDefinition[] = ProcessDefinitionData::fromArray($res);
         }
 
         return $processDefinition;
     }
 
+    /**
+     * @param  array  $args
+     */
     public static function find(...$args): ProcessDefinitionData
     {
         $response = self::make()->get(self::makeIdentifierPath('process-definition/{identifier}', $args));
 
         if ($response->status() === 404) {
-            throw new ObjectNotFoundException($response->json('message'));
+            /** @var string */
+            $message = $response->json('message');
+            throw new ObjectNotFoundException($message);
         }
 
         /** @var array */

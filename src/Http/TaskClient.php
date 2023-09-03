@@ -14,10 +14,15 @@ class TaskClient extends CamundaClient
         $response = self::make()->get("task/$id");
 
         if ($response->status() === 404) {
-            throw new ObjectNotFoundException($response->json('message'));
+            /** @var string */
+            $message = $response->json('message');
+            throw new ObjectNotFoundException($message);
         }
 
-        return TaskData::fromArray($response->json());
+        /** @var array */
+        $array = $response->json();
+
+        return TaskData::fromArray($array);
     }
 
     /**
@@ -118,10 +123,10 @@ class TaskClient extends CamundaClient
         return false;
     }
 
-    public static function getByAssignedAndProcessInstanceId($user_id, array $ids = []): array
+    public static function getByAssignedAndProcessInstanceId(string $userID, array $ids = []): array
     {
         $payload = [
-            'assignee' => $user_id,
+            'assignee' => $userID,
         ];
         if ($ids != []) {
             $payload['processInstanceIdIn'] = implode(',', $ids);

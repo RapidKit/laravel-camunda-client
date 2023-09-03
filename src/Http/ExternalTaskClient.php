@@ -33,8 +33,10 @@ class ExternalTaskClient extends CamundaClient
 
         $data = [];
         if ($response->successful()) {
-            foreach ($response->json() as $task) {
-                $data[] = new ExternalTaskData(...$task);
+            /** @var array<array> */
+            $array = $response->json();
+            foreach ($array as $task) {
+                $data[] = ExternalTaskData::fromArray($task);
             }
         }
 
@@ -51,14 +53,18 @@ class ExternalTaskClient extends CamundaClient
 
         if ($response->successful()) {
             $data = [];
-            foreach ($response->json() as $raw) {
+            /** @var array<array> */
+            $array = $response->json();
+            foreach ($array as $raw) {
                 $data[] = ExternalTaskData::fromArray($raw);
             }
 
             return $data;
         }
 
-        throw new CamundaException($response->json('message'));
+        /** @var string */
+        $message = $response->json('message');
+        throw new CamundaException($message);
     }
 
     public static function complete(
@@ -79,7 +85,9 @@ class ExternalTaskClient extends CamundaClient
         $isSuccessful = $response->status() === 204;
 
         if (! $isSuccessful) {
-            throw (new UnexpectedResponseException)->for($url, $payload, $response->json());
+            /** @var array */
+            $array = $response->json();
+            throw (new UnexpectedResponseException)->for($url, $payload, $array);
         }
 
         return $isSuccessful;
@@ -98,7 +106,9 @@ class ExternalTaskClient extends CamundaClient
         $isSuccessful = $response->status() === 204;
 
         if (! $isSuccessful) {
-            throw (new UnexpectedResponseException)->for($url, $payload, $response->json());
+            /** @var array */
+            $array = $response->json();
+            throw (new UnexpectedResponseException)->for($url, $payload, $array);
         }
 
         return $isSuccessful;

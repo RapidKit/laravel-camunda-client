@@ -7,7 +7,7 @@ class JsonType
     /**
      * @throws \JsonException
      */
-    public function __invoke($value): array
+    public function __invoke(string $value): array
     {
         return [
             'value' => json_encode($value, JSON_THROW_ON_ERROR),

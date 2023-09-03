@@ -17,7 +17,9 @@ class ProcessInstanceClient extends CamundaClient
     public static function get(array $parameters = []): array
     {
         $instances = [];
-        foreach (self::make()->get('process-instance', $parameters)->json() as $res) {
+        /** @var array<array> */
+        $array = self::make()->get('process-instance', $parameters)->json();
+        foreach ($array as $res) {
             $instances[] = new ProcessInstanceData(...$res);
         }
 
@@ -40,8 +42,10 @@ class ProcessInstanceClient extends CamundaClient
             $reqstr = 'process-instance';
         }
 
-        foreach (self::make()->get($reqstr)->json() as $res) {
-            $instances[] = new ProcessInstance($res);
+        /** @var array<array> */
+        $array = self::make()->get($reqstr)->json();
+        foreach ($array as $res) {
+            $instances[] = new ProcessInstanceData(...$res);
         }
 
         return $instances;
@@ -52,7 +56,9 @@ class ProcessInstanceClient extends CamundaClient
         $response = self::make()->get("process-instance/$id");
 
         if ($response->status() === 404) {
-            throw new ObjectNotFoundException($response->json('message'));
+            /** @var string */
+            $message = $response->json('message');
+            throw new ObjectNotFoundException($message);
         }
 
         /** @var array */
@@ -66,16 +72,21 @@ class ProcessInstanceClient extends CamundaClient
         $response = self::make()->get('process-instance?businessKey='.$businessKey);
 
         if ($response->status() === 404) {
-            throw new ObjectNotFoundException($response->json('message'));
+            /** @var string */
+            $message = $response->json('message');
+            throw new ObjectNotFoundException($message);
         }
 
+        /** @var array */
         $data = $response->json();
 
         if (count($data) == 0) {
             throw new ObjectNotFoundException('Process Instance Not Found');
         }
 
-        return new ProcessInstanceData(...$data[count($data) - 1]);
+        /** @var array */
+        $array = $data[count($data) - 1];
+        return ProcessInstanceData::fromArray($array);
     }
 
     /**

@@ -8,12 +8,19 @@ use BeyondCRUD\LaravelCamundaClient\Data\Types\ObjectType;
 use BeyondCRUD\LaravelCamundaClient\Data\Types\StringType;
 use Illuminate\Support\Collection;
 
+/**
+ * @template TKey of array-key
+ * @template TModel of VariableCollection
+ *
+ * @extends \Illuminate\Support\Collection<TKey, TModel>
+ */
 class VariableCollection extends Collection
 {
     public function toArray()
     {
         $variables = [];
         foreach ($this->items as $key => $value) {
+            /** @var string */
             $valueType = gettype($value);
             $typeClass = match ($valueType) {
                 'array' => JsonType::class,

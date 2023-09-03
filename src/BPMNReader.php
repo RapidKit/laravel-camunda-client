@@ -8,14 +8,20 @@ class BPMNReader
 
     public function __construct(string $file)
     {
-        $this->xml = new \SimpleXMLElement(file_get_contents($file));
+        /** @var string */
+        $string = file_get_contents($file);
+        $this->xml = new \SimpleXMLElement($string);
         $this->xml->registerXPathNamespace('bpmn', 'http://www.omg.org/spec/BPMN/20100524/MODEL');
         $this->xml->registerXPathNamespace('camunda', 'http://camunda.org/schema/1.0/bpmn');
     }
 
-    public function getForms()
+    public function getForms(): array
     {
-        $nodes = $this->xml->xpath('//bpmn:startEvent') + $this->xml->xpath('//bpmn:userTask');
+        /** @var array */
+        $array1 = $this->xml->xpath('//bpmn:startEvent');
+        /** @var array */
+        $array2 = $this->xml->xpath('//bpmn:userTask');
+        $nodes = $array1 + $array2;
 
         $forms = [];
         foreach ($nodes as $node) {
@@ -23,10 +29,12 @@ class BPMNReader
                 $fields = $node->xpath('bpmn:extensionElements/camunda:formData/camunda:formField');
                 $formFields = [];
                 foreach ($fields as $field) {
-                    $properties = collect($field->xpath('camunda:properties/camunda:property'))
-                        ->transform(
-                            fn ($node) => [(string) $node->attributes()->id => (string) $node->attributes()->value]
-                        )
+                    /** @var array */
+                    $array = $field->xpath('camunda:properties/camunda:property');
+                    $properties = collect($array)
+                        ->transform(fn ($node) => [
+                            (string) $node->attributes()->id => (string) $node->attributes()->value
+                        ])
                         ->toArray();
 
                     $formFields[] = [

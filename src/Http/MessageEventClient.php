@@ -15,6 +15,7 @@ class MessageEventClient extends CamundaClient
     {
         $variables = $args['variables'] ?? [];
         $messageName = $args['messageName'] ?? null;
+        /** @var string */
         $businessKey = $args['businessKey'] ?? null;
 
         if (! $messageName) {
@@ -27,16 +28,14 @@ class MessageEventClient extends CamundaClient
 
         $payload = [];
 
+        $payload['businessKey'] = $businessKey;
         $payload['messageName'] = $messageName;
-        if (! empty($variables)) {
+
+        if (! empty($variables) && count($variables) !== 0) {
             $payload['variables'] = $variables;
             $payload['withVariablesInReturn'] = true;
         }
         $payload['processInstanceId'] = Str::uuid()->toString();
-
-        if ($businessKey) {
-            $payload['businessKey'] = $businessKey;
-        }
 
         $response = self::make()->post('message', $payload);
         if ($response->successful()) {
