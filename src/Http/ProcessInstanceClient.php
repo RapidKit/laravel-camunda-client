@@ -86,6 +86,7 @@ class ProcessInstanceClient extends CamundaClient
 
         /** @var array */
         $array = $data[count($data) - 1];
+
         return ProcessInstanceData::fromArray($array);
     }
 

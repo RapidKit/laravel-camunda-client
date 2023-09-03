@@ -47,6 +47,7 @@ class ProcessDefinitionClient extends CamundaClient
         $path = self::makeIdentifierPath(path: 'process-definition/{identifier}/xml', args: $args);
         /** @var string */
         $string = self::make()->get($path)->json('bpmn20Xml');
+
         return $string;
     }
 
