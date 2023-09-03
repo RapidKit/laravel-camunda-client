@@ -2,7 +2,7 @@
 
 namespace BeyondCRUD\LaravelCamundaClient;
 
-use BeyondCRUD\LaravelCamundaClient\Commands\LaravelCamundaClientCommand;
+use BeyondCRUD\LaravelCamundaClient\Commands\ConsumeExternalTaskCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -13,6 +13,6 @@ class LaravelCamundaClientServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-camunda-client')
             ->hasConfigFile()
-            ->hasCommand(LaravelCamundaClientCommand::class);
+            ->hasCommand(ConsumeExternalTaskCommand::class);
     }
 }

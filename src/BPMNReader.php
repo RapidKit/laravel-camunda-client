@@ -1,10 +1,8 @@
 <?php
 
-declare(strict_types=1);
+namespace BeyondCRUD\LaravelCamundaClient;
 
-namespace Laravolt\Camunda;
-
-class BpmnReader
+class BPMNReader
 {
     private \SimpleXMLElement $xml;
 
@@ -44,7 +42,7 @@ class BpmnReader
                     'fields' => $formFields,
                 ];
                 $forms[] = $form;
-            } catch (\ErrorException $exception) {
+            } catch (\ErrorException) {
             }
         }
 

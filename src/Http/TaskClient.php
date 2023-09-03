@@ -3,9 +3,9 @@
 namespace BeyondCRUD\LaravelCamundaClient\Http;
 
 use BeyondCRUD\LaravelCamundaClient\Data\TaskData;
+use BeyondCRUD\LaravelCamundaClient\Data\VariableData;
 use BeyondCRUD\LaravelCamundaClient\Exceptions\CamundaException;
 use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
-use Laravolt\Camunda\Dto\Casters\VariablesCaster;
 
 class TaskClient extends CamundaClient
 {
@@ -17,12 +17,12 @@ class TaskClient extends CamundaClient
             throw new ObjectNotFoundException($response->json('message'));
         }
 
-        /** @var array */
-        $payload = $response->json();
-
-        return new TaskData(...$payload);
+        return TaskData::fromArray($response->json());
     }
 
+    /**
+     * @return TaskData[]
+     */
     public static function getByProcessInstanceId(string $id): array
     {
         $response = self::make()->get("task?processInstanceId=$id");
@@ -32,7 +32,7 @@ class TaskClient extends CamundaClient
             /** @var array */
             $array = $response->json();
             foreach ($array as $task) {
-                $data[] = new TaskData(...$task);
+                $data[] = TaskData::fromArray($task);
             }
         }
 
@@ -62,6 +62,9 @@ class TaskClient extends CamundaClient
         return self::get($payload);
     }
 
+    /**
+     * @return TaskData[]
+     */
     public static function getByProcessInstanceIds(array $ids): array
     {
         $response = self::make()->get('task?processInstanceIdIn='.implode(',', $ids));
@@ -71,7 +74,7 @@ class TaskClient extends CamundaClient
             /** @var array */
             $array = $response->json();
             foreach ($array as $task) {
-                $data[] = new TaskData(...$task);
+                $data[] = TaskData::fromArray($task);
             }
         }
 
@@ -156,6 +159,9 @@ class TaskClient extends CamundaClient
         throw new CamundaException($response->body(), $response->status());
     }
 
+    /**
+     * @return VariableData[]
+     */
     public static function submitAndReturnVariables(string $id, array $variables): array
     {
         $response = self::make()->post(
@@ -164,7 +170,7 @@ class TaskClient extends CamundaClient
         );
 
         if ($response->status() === 200) {
-            return (new VariablesCaster(['array'], Variable::class))->cast($response->json());
+            return VariableData::fromResponse($response);
         }
 
         throw new CamundaException($response->body(), $response->status());

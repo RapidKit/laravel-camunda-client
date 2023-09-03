@@ -2,9 +2,9 @@
 
 namespace BeyondCRUD\LaravelCamundaClient\Http;
 
+use BeyondCRUD\LaravelCamundaClient\Data\ExternalTaskData;
 use BeyondCRUD\LaravelCamundaClient\Exceptions\CamundaException;
 use BeyondCRUD\LaravelCamundaClient\Exceptions\UnexpectedResponseException;
-use Laravolt\Camunda\Dto\ExternalTask;
 
 class ExternalTaskClient extends CamundaClient
 {
@@ -15,9 +15,6 @@ class ExternalTaskClient extends CamundaClient
         return self::$subscribers;
     }
 
-    /**
-     * @param  class-string|array  $job
-     */
     public static function subscribe(string $topic, string|array $job): void
     {
         self::$subscribers[$topic] = [
@@ -28,10 +25,7 @@ class ExternalTaskClient extends CamundaClient
     }
 
     /**
-     * @param  string  $processInstanceId
-     * @return ExternalTask[]
-     *
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
+     * @return ExternalTaskData[]
      */
     public static function getByProcessInstanceId(string $id): array
     {
@@ -40,7 +34,7 @@ class ExternalTaskClient extends CamundaClient
         $data = [];
         if ($response->successful()) {
             foreach ($response->json() as $task) {
-                $data[] = new ExternalTask($task);
+                $data[] = new ExternalTaskData(...$task);
             }
         }
 
@@ -48,24 +42,17 @@ class ExternalTaskClient extends CamundaClient
     }
 
     /**
-     * @return ExternalTask[]
-     *
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
+     * @return ExternalTaskData[]
      */
     public static function fetchAndLock(string $workerId, array $topics, int $maxTasks = 10): array
     {
-        $payload = [
-            'workerId' => $workerId,
-            'maxTasks' => $maxTasks,
-            'topics' => $topics,
-        ];
-
+        $payload = ['workerId' => $workerId, 'maxTasks' => $maxTasks, 'topics' => $topics];
         $response = self::make()->post('external-task/fetchAndLock', $payload);
 
         if ($response->successful()) {
             $data = [];
             foreach ($response->json() as $raw) {
-                $data[] = new ExternalTask($raw);
+                $data[] = ExternalTaskData::fromArray($raw);
             }
 
             return $data;

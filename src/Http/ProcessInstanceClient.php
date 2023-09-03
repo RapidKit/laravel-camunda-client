@@ -1,20 +1,24 @@
 <?php
 
-declare(strict_types=1);
-
 namespace BeyondCRUD\LaravelCamundaClient\Http;
 
+use BeyondCRUD\LaravelCamundaClient\Data\ProcessInstanceData;
+use BeyondCRUD\LaravelCamundaClient\Data\VariableData;
 use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
-use Laravolt\Camunda\Dto\ProcessInstance;
-use Laravolt\Camunda\Dto\Variable;
+
+// use Laravolt\Camunda\Dto\ProcessInstance;
+// use Laravolt\Camunda\Dto\Variable;
 
 class ProcessInstanceClient extends CamundaClient
 {
+    /**
+     * @return ProcessInstanceData[]
+     */
     public static function get(array $parameters = []): array
     {
         $instances = [];
         foreach (self::make()->get('process-instance', $parameters)->json() as $res) {
-            $instances[] = new ProcessInstance($res);
+            $instances[] = new ProcessInstanceData(...$res);
         }
 
         return $instances;
@@ -43,7 +47,7 @@ class ProcessInstanceClient extends CamundaClient
         return $instances;
     }
 
-    public static function find(string $id): ProcessInstance
+    public static function find(string $id): ProcessInstanceData
     {
         $response = self::make()->get("process-instance/$id");
 
@@ -51,12 +55,14 @@ class ProcessInstanceClient extends CamundaClient
             throw new ObjectNotFoundException($response->json('message'));
         }
 
-        return new ProcessInstance($response->json());
+        /** @var array */
+        $array = $response->json();
+
+        return new ProcessInstanceData(...$array);
     }
 
-    public static function findByBusniessKey(string $businessKey): ProcessInstance
+    public static function findByBusinessKey(string $businessKey): ProcessInstanceData
     {
-
         $response = self::make()->get('process-instance?businessKey='.$businessKey);
 
         if ($response->status() === 404) {
@@ -69,23 +75,17 @@ class ProcessInstanceClient extends CamundaClient
             throw new ObjectNotFoundException('Process Instance Not Found');
         }
 
-        return new ProcessInstance($data[count($data) - 1]);
+        return new ProcessInstanceData(...$data[count($data) - 1]);
     }
 
+    /**
+     * @return VariableData[]
+     */
     public static function variables(string $id): array
     {
-        $variables = self::make()->get("process-instance/$id/variables", ['deserializeValues' => false])->json();
-
-        return collect($variables)->mapWithKeys(
-            fn ($data, $name) => [
-                $name => new Variable(
-                    name: $name,
-                    value: $data['value'],
-                    type: $data['type'],
-                    valueInfo: $data['valueInfo'] ?? []
-                ),
-            ]
-        )->toArray();
+        return VariableData::fromResponse(
+            self::make()->get("process-instance/$id/variables", ['deserializeValues' => false])
+        );
     }
 
     public static function delete(string $id): bool

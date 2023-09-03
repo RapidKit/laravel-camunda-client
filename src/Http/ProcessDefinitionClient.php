@@ -1,17 +1,18 @@
 <?php
 
-declare(strict_types=1);
-
 namespace BeyondCRUD\LaravelCamundaClient\Http;
 
+use BeyondCRUD\LaravelCamundaClient\Data\ProcessDefinitionData;
+use BeyondCRUD\LaravelCamundaClient\Data\ProcessInstanceData;
 use BeyondCRUD\LaravelCamundaClient\Exceptions\InvalidArgumentException;
 use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
-use Laravolt\Camunda\Dto\ProcessDefinition;
-use Laravolt\Camunda\Dto\ProcessInstance;
 
 class ProcessDefinitionClient extends CamundaClient
 {
-    public static function start(...$args): ProcessInstance
+    /**
+     * @param  array{key: string, variables?: array, businessKey?: string}  $args
+     */
+    public static function start(...$args): ProcessInstanceData
     {
         $variables = $args['variables'] ?? (object) [];
         $businessKey = $args['businessKey'] ?? null;
@@ -28,7 +29,10 @@ class ProcessDefinitionClient extends CamundaClient
         $path = self::makeIdentifierPath('process-definition/{identifier}/start', $args);
         $response = self::make()->post($path, $payload);
         if ($response->successful()) {
-            return new ProcessInstance($response->json());
+            /** @var array */
+            $array = $response->json();
+
+            return new ProcessInstanceData(...$array);
         }
 
         throw new InvalidArgumentException($response->body());
@@ -45,13 +49,13 @@ class ProcessDefinitionClient extends CamundaClient
     {
         $processDefinition = [];
         foreach (self::make()->get('process-definition', $parameters)->json() as $res) {
-            $processDefinition[] = new ProcessDefinition($res);
+            $processDefinition[] = new ProcessDefinitionData(...$res);
         }
 
         return $processDefinition;
     }
 
-    public static function find(...$args): ProcessDefinition
+    public static function find(...$args): ProcessDefinitionData
     {
         $response = self::make()->get(self::makeIdentifierPath('process-definition/{identifier}', $args));
 
@@ -59,6 +63,9 @@ class ProcessDefinitionClient extends CamundaClient
             throw new ObjectNotFoundException($response->json('message'));
         }
 
-        return new ProcessDefinition($response->json());
+        /** @var array */
+        $array = $response->json();
+
+        return new ProcessDefinitionData(...$array);
     }
 }

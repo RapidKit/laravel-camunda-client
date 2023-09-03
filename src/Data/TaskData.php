@@ -2,18 +2,19 @@
 
 namespace BeyondCRUD\LaravelCamundaClient\Data;
 
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Spatie\LaravelData\Data;
 
 class TaskData extends Data
 {
     public function __construct(
+        public string $id,
         public string $name,
         public ?string $assignee,
         public Carbon $created,
-        public ?Carbon $lastUpdated,
         public ?string $due,
         public ?string $followUp,
+        public ?Carbon $lastUpdated,
         public ?string $delegationState,
         public ?string $description,
         public string $executionId,
@@ -31,5 +32,12 @@ class TaskData extends Data
         public ?array $camundaFormRef = null,
         public ?string $tenantId = null,
     ) {
+    }
+
+    public static function fromArray(array $data): self
+    {
+        $data['created'] = Carbon::parse($data['created']);
+
+        return new self(...$data);
     }
 }

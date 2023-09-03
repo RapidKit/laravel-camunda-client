@@ -1,21 +1,13 @@
 <?php
 
-use BeyondCRUD\LaravelCamundaClient\Commands\LaravelCamundaClientCommand;
+use BeyondCRUD\LaravelCamundaClient\Commands\ConsumeExternalTaskCommand;
 
 use function Pest\Laravel\artisan;
 
-it('can output the configured value', function () {
-    artisan(LaravelCamundaClientCommand::class)
-        ->expectsOutput(config('camunda-client.url'))
-        ->assertExitCode(0);
-});
-
-it('can output the another value', function () {
-    $currentValue = 'http://localhost:8039/engine-rest';
-
-    config()->set('camunda-client.url', $currentValue);
-
-    artisan(LaravelCamundaClientCommand::class)
-        ->expectsOutput($currentValue)
+it('can run the command', function () {
+    artisan(ConsumeExternalTaskCommand::class, ['--workerId' => 'test-worker'])
+        // ->expectsOutput('topic')
+        // ->expectsOutput('Job')
+        // ->expectsOutput('Job Dispatched')
         ->assertExitCode(0);
 });

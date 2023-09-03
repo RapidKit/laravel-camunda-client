@@ -2,7 +2,7 @@
 
 namespace BeyondCRUD\LaravelCamundaClient\Data;
 
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Spatie\LaravelData\Data;
 
 class TaskHistoryData extends Data
@@ -35,5 +35,28 @@ class TaskHistoryData extends Data
         public ?Carbon $removalTime,
         public string $rootProcessInstanceId,
     ) {
+    }
+
+    public static function fromArray(array $data): self
+    {
+        $data['startTime'] = Carbon::parse($data['startTime']);
+
+        if (isset($data['endTime'])) {
+            $data['endTime'] = Carbon::parse($data['endTime']);
+        }
+
+        if (isset($data['due'])) {
+            $data['due'] = Carbon::parse($data['due']);
+        }
+
+        if (isset($data['followUp'])) {
+            $data['followUp'] = Carbon::parse($data['followUp']);
+        }
+
+        if (isset($data['removalTime'])) {
+            $data['removalTime'] = Carbon::parse($data['removalTime']);
+        }
+
+        return new self(...$data);
     }
 }

@@ -7,6 +7,8 @@
 
 This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
 
+> Review usage of LaravelData, apakah lebih baik demikian atau ganti jadi [Validated DTO for Laravel](https://wendell-adriel.gitbook.io/laravel-validated-dto/)?
+
 ## Installation
 
 You can install the package via composer:
@@ -74,3 +76,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+## References
+
+- [Camunda Platform REST API (7.19.6-ee)](https://docs.camunda.org/rest/camunda-bpm-platform/7.19/)

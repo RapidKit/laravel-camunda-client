@@ -1,16 +1,17 @@
 <?php
 
-declare(strict_types=1);
-
 namespace BeyondCRUD\LaravelCamundaClient\Http;
 
+use BeyondCRUD\LaravelCamundaClient\Data\ProcessInstanceData;
 use BeyondCRUD\LaravelCamundaClient\Exceptions\InvalidArgumentException;
 use Illuminate\Support\Str;
-use Laravolt\Camunda\Dto\ProcessInstance;
 
 class MessageEventClient extends CamundaClient
 {
-    public static function start(...$args): ProcessInstance
+    /**
+     * @param  array{messageName: string, businessKey: string, variables?: array}  $args
+     */
+    public static function start(...$args): ProcessInstanceData
     {
         $variables = $args['variables'] ?? [];
         $messageName = $args['messageName'] ?? null;
@@ -39,7 +40,7 @@ class MessageEventClient extends CamundaClient
 
         $response = self::make()->post('message', $payload);
         if ($response->successful()) {
-            return ProcessInstanceClient::findByBusniessKey($businessKey);
+            return ProcessInstanceClient::findByBusinessKey($businessKey);
         }
 
         throw new InvalidArgumentException($response->body());

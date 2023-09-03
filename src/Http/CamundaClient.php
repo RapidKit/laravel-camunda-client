@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace BeyondCRUD\LaravelCamundaClient\Http;
 
 use BeyondCRUD\LaravelCamundaClient\Exceptions\InvalidArgumentException;

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace BeyondCRUD\LaravelCamundaClient\Http;
 
 use BeyondCRUD\LaravelCamundaClient\Data\DeploymentData;
@@ -16,6 +14,7 @@ class DeploymentClient extends CamundaClient
         $appName = config('app.name');
         /** @var string */
         $appEnv = config('app.env');
+
         $multipart = [
             ['name' => 'deployment-name', 'contents' => $name],
             ['name' => 'deployment-source', 'contents' => sprintf('%s (%s)', $appName, $appEnv)],
@@ -85,7 +84,7 @@ class DeploymentClient extends CamundaClient
     public static function delete(string $id, bool $cascade = false): bool
     {
         $cascadeFlag = $cascade ? 'cascade=true' : '';
-        $response = self::make()->delete("deployment/{$id}?" . $cascadeFlag);
+        $response = self::make()->delete("deployment/{$id}?".$cascadeFlag);
 
         if ($response->status() === 404) {
             /** @var string */

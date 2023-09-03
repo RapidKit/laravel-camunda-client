@@ -6,6 +6,7 @@ use BeyondCRUD\LaravelCamundaClient\Data\TaskHistoryData;
 use BeyondCRUD\LaravelCamundaClient\Exceptions\CamundaException;
 use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 class TaskHistoryClient extends CamundaClient
 {
@@ -20,10 +21,11 @@ class TaskHistoryClient extends CamundaClient
 
             /** @var array */
             $array = $response->json();
+
             /** @var array[string, mixed] */
             $payloads = Arr::first($array);
 
-            return new TaskHistoryData(...$payloads);
+            return TaskHistoryData::fromArray($payloads);
         }
 
         /** @var string */
@@ -32,28 +34,21 @@ class TaskHistoryClient extends CamundaClient
         throw new CamundaException($message);
     }
 
-    public static function getByProcessInstanceId(string $processInstanceId): array
+    public static function getByProcessInstanceId(string $processInstanceId): Collection
     {
-        $response = self::make()
-            ->get(
-                'history/task',
-                [
-                    'processInstanceId' => $processInstanceId,
-                    'finished' => true,
-                ]
-            );
+        $response = self::make()->get('history/task', ['processInstanceId' => $processInstanceId, 'finished' => true]);
 
         if ($response->successful()) {
-            $data = collect();
+            $data = [];
 
             /** @var array */
             $array = $response->json();
 
             foreach ($array as $task) {
-                $data->push(new TaskHistoryData(...$task));
+                array_push($data, TaskHistoryData::fromArray($task));
             }
 
-            return $data->sortBy('endTime')->toArray();
+            return collect($data)->sortBy('endTime');
         }
 
         return [];

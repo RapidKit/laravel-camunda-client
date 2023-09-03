@@ -1,6 +1,7 @@
 <?php
 
 use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
+use BeyondCRUD\LaravelCamundaClient\Exceptions\ParseException;
 use BeyondCRUD\LaravelCamundaClient\Http\DeploymentClient;
 
 afterEach(function () {
@@ -41,12 +42,10 @@ it('can deploy multiple bpmn', function () {
 });
 
 it("can't deploy invalid bpmn", function () {
-    $this->expectException(\BeyondCRUD\LaravelCamundaClient\Exceptions\ParseException::class);
-
     $files = __DIR__.'/../../resources/bpmn/invalid.bpmn';
 
     DeploymentClient::create('test', $files);
-});
+})->throws(ParseException::class);
 
 it('can get deployment by id', function () {
     $deploymentName = 'test';
@@ -57,10 +56,8 @@ it('can get deployment by id', function () {
 });
 
 it("can't get deployment by invalid id", function () {
-    $this->expectException(ObjectNotFoundException::class);
-
     DeploymentClient::find('some-invalid-id');
-});
+})->throws(ObjectNotFoundException::class);
 
 it('can get list deployment', function () {
     $deploymentName = 'test';
@@ -86,10 +83,8 @@ it('can delete deployment', function () {
 });
 
 it("can't delete invalid deployment", function () {
-    $this->expectException(ObjectNotFoundException::class);
-
     DeploymentClient::delete('invalid-id');
-});
+})->throws(ObjectNotFoundException::class);
 
 it('can truncate deployment', function () {
     DeploymentClient::create('test1', __DIR__.'/../../resources/bpmn/external-task.bpmn');

@@ -1,8 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Laravolt\Camunda\Dto\VariableType;
+namespace BeyondCRUD\LaravelCamundaClient\Data\Types;
 
 class JsonType
 {
@@ -13,7 +11,7 @@ class JsonType
     {
         return [
             'value' => json_encode($value, JSON_THROW_ON_ERROR),
-            'type' => 'Json'
+            'type' => 'Json',
         ];
     }
 }
