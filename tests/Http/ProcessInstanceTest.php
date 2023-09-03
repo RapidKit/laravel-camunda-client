@@ -1,5 +1,6 @@
 <?php
 
+use BeyondCRUD\LaravelCamundaClient\Data\ProcessInstanceData;
 use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
 use BeyondCRUD\LaravelCamundaClient\Http\DeploymentClient;
 use BeyondCRUD\LaravelCamundaClient\Http\ProcessDefinitionClient;
@@ -18,12 +19,15 @@ it('can find by id', function () {
     expect($processInstance2->id)->toBe($processInstance3->id);
 });
 
-it('can get list', function () {
+it('can get list all', function () {
     $vars = ['title' => ['value' => 'Foo', 'type' => 'string']];
     ProcessDefinitionClient::start(key: 'process_1', variables: $vars);
     $processInstances = ProcessInstanceClient::get();
 
-    expect($processInstances)->toHaveCount(1);
+    foreach ($processInstances as $process) {
+        expect($process)->toBeInstanceOf(ProcessInstanceData::class);
+        expect($process->definitionId)->toContain('process_1');
+    }
 });
 
 it('can get list by parameters', function () {
