@@ -23,6 +23,10 @@ jobs:
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
+    services:
+      camunda:
+        image: camunda/camunda-bpm-platform:latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
