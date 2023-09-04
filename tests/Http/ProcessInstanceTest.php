@@ -6,8 +6,10 @@ use BeyondCRUD\LaravelCamundaClient\Http\DeploymentClient;
 use BeyondCRUD\LaravelCamundaClient\Http\ProcessDefinitionClient;
 use BeyondCRUD\LaravelCamundaClient\Http\ProcessInstanceClient;
 
-beforeEach(fn () => DeploymentClient::create('test', __DIR__.'/../../resources/bpmn/simple.bpmn'));
-afterEach(fn () => DeploymentClient::truncate(true));
+beforeEach(function () {
+    DeploymentClient::truncate(true);
+    DeploymentClient::create('test', __DIR__.'/../../resources/bpmn/simple.bpmn');
+});
 
 it('can find by id', function () {
     $vars = ['title' => ['value' => 'Foo', 'type' => 'string']];
