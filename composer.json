@@ -39,6 +39,7 @@
         "pestphp/pest": "^2.0",
         "pestphp/pest-plugin-arch": "^2.0",
         "pestphp/pest-plugin-laravel": "^2.0",
+        "pestphp/pest-plugin-type-coverage": "^2.2",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-phpunit": "^1.0"
@@ -59,6 +60,8 @@
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
         "testCov": "vendor/bin/pest --coverage",
+        "testTCov": "vendor/bin/pest --type-coverage --min=100",
+        "qc": "composer testTCov && composer testCov",
         "format": "vendor/bin/pint"
     },
     "config": {
