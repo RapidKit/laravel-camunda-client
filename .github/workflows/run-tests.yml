@@ -38,7 +38,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo, xdebug
-          coverage: none
+          coverage: xdebug
 
       - name: Setup problem matchers
         run: |
@@ -54,6 +54,6 @@ jobs:
         run: composer show -D
 
       - name: Execute tests
-        run: XDEBUG_MODE=coverage composer qc
+        run: composer qc
         env:
           CAMUNDA_URL: http://127.0.0.1:${{ job.services.camunda.ports[8080] }}/engine-rest
