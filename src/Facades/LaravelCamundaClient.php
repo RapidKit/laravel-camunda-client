@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Facade;
  */
 class LaravelCamundaClient extends Facade
 {
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return \BeyondCRUD\LaravelCamundaClient\LaravelCamundaClient::class;
     }

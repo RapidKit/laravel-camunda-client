@@ -16,7 +16,7 @@ use Illuminate\Support\Collection;
  */
 class VariableCollection extends Collection
 {
-    public function toArray()
+    public function toArray(): array
     {
         $variables = [];
         foreach ($this->items as $key => $value) {

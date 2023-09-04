@@ -2,6 +2,8 @@
 
 namespace BeyondCRUD\LaravelCamundaClient;
 
+use SimpleXMLElement;
+
 class BPMNReader
 {
     private \SimpleXMLElement $xml;
@@ -32,7 +34,7 @@ class BPMNReader
                     /** @var array */
                     $array = $field->xpath('camunda:properties/camunda:property');
                     $properties = collect($array)
-                        ->transform(fn ($node) => [
+                        ->transform(fn (SimpleXMLElement $node) => [
                             (string) $node->attributes()->id => (string) $node->attributes()->value,
                         ])
                         ->toArray();
