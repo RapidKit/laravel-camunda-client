@@ -261,9 +261,9 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 ## References
 
+- [Deployment](https://docs.camunda.org/rest/camunda-bpm-platform/7.19/#tag/Deployment)
+- [External Task](https://docs.camunda.org/rest/camunda-bpm-platform/7.19/#tag/External-Task)
+- [Message](https://docs.camunda.org/rest/camunda-bpm-platform/7.19/#tag/Message)
 - [Process Definition](https://docs.camunda.org/rest/camunda-bpm-platform/7.19/#tag/Process-Definition)
 - [Task](https://docs.camunda.org/rest/camunda-bpm-platform/7.19/#tag/Task)
-- [External Task](https://docs.camunda.org/rest/camunda-bpm-platform/7.19/#tag/External-Task)
 - [Task History](https://docs.camunda.org/rest/camunda-bpm-platform/7.19/#tag/Historic-Task-Instance)
-- [Deployment](https://docs.camunda.org/rest/camunda-bpm-platform/7.19/#tag/Deployment)
-- [Message](https://docs.camunda.org/rest/camunda-bpm-platform/7.19/#tag/Message)
