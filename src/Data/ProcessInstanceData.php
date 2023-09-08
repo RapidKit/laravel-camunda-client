@@ -18,9 +18,4 @@ class ProcessInstanceData extends Data
         public ?array $variables = [],
     ) {
     }
-
-    public static function fromArray(array $data): self
-    {
-        return new self(...$data);
-    }
 }
