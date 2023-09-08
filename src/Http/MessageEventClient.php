@@ -32,13 +32,19 @@ class MessageEventClient extends CamundaClient
         $payload['messageName'] = $messageName;
 
         if (! empty($variables) && count($variables) !== 0) {
-            $payload['variables'] = $variables;
-            $payload['withVariablesInReturn'] = true;
+            $payload['processVariables'] = $variables;
+            $payload['resultEnabled'] = true;
+            $payload['variablesInResultEnabled'] = true;
         }
         $payload['processInstanceId'] = Str::uuid()->toString();
 
         $response = self::make()->post('message', $payload);
-        if ($response->successful()) {
+        if ($response->successful() && isset($payload['variablesInResultEnabled'])) {
+            /** @var array */
+            $array = $response->json();
+
+            return new ProcessInstanceData(...$array[0]['processInstance'] + ['variables' => $array[0]['variables']]);
+        } elseif ($response->successful()) {
             return ProcessInstanceClient::findByBusinessKey($businessKey);
         }
 
