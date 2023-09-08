@@ -15,6 +15,7 @@ class MessageEventClient extends CamundaClient
     {
         $variables = $args['variables'] ?? [];
         $messageName = $args['messageName'] ?? null;
+        /** @var string */
         $businessKey = $args['businessKey'] ?? null;
 
         if (! $messageName) {
@@ -39,9 +40,10 @@ class MessageEventClient extends CamundaClient
 
         $response = self::make()->post('message', $payload);
         if ($response->successful() && isset($payload['variablesInResultEnabled'])) {
-            $data = $response->json()[0];
+            /** @var array */
+            $array = $response->json();
 
-            return new ProcessInstanceData(...$data['processInstance'] + ['variables' => $data['variables']]);
+            return new ProcessInstanceData(...$array[0]['processInstance'] + ['variables' => $array[0]['variables']]);
         } elseif ($response->successful()) {
             return ProcessInstanceClient::findByBusinessKey($businessKey);
         }
