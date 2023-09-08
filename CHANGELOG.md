@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-camunda-client` will be documented in this file.
 
+## v1.0.1 - 2023-09-08
+
+### What's Changed
+
+- fix: message event client with variables by @ramaID in https://github.com/beyondCRUD/laravel-camunda-client/pull/2
+
+**Full Changelog**: https://github.com/beyondCRUD/laravel-camunda-client/compare/v1.0.0...v1.0.1
+
 ## v1.0.0 - 2023-09-03
 
 ### What's Changed
