@@ -2,6 +2,7 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/beyondcrud/laravel-camunda-client.svg?style=flat-square)](https://packagist.org/packages/beyondcrud/laravel-camunda-client)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/beyondcrud/laravel-camunda-client/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/beyondcrud/laravel-camunda-client/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Static Analysis Action Status](https://img.shields.io/github/actions/workflow/status/beyondcrud/laravel-camunda-client/phpstan.yml?branch=main&label=static%20analysis&style=flat-square)](https://github.com/beyondcrud/laravel-camunda-client/actions?query=workflow%3Aphpstan+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/beyondcrud/laravel-camunda-client/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/beyondcrud/laravel-camunda-client/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/beyondcrud/laravel-camunda-client.svg?style=flat-square)](https://packagist.org/packages/beyondcrud/laravel-camunda-client)
 
@@ -18,7 +19,7 @@ composer require beyondcrud/laravel-camunda-client
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-camunda-client-config"
+php artisan vendor:publish --tag='laravel-camunda-client-config'
 ```
 
 This is the contents of the published config file:
@@ -87,7 +88,10 @@ ProcessInstanceClient::delete(id: 'some-id');
 ```php
 use BeyondCRUD\LaravelCamundaClient\Http\MessageEventClient;
 
-MessageEventClient::start(messageName: "testing",  businessKey: "businessKey")
+MessageEventClient::start(messageName: 'testing',  businessKey: 'businessKey');
+
+$vars = ['title' => ['type' => 'String', 'value' => 'Sample Title']];
+MessageEventClient::start(messageName: 'testing',  businessKey: 'businessKey', variables: $vars);
 ```
 
 ### Task
@@ -223,7 +227,7 @@ use BeyondCRUD\LaravelCamundaClient\CamundaClient;
 $response = CamundaClient::make()->get('version');
 echo $response->status(); // 200
 echo $response->object(); // sdtClass
-echo $response->json(); // array, something like ["version" => "7.14.0"]
+echo $response->json(); // array, something like ['version' => '7.14.0']
 ```
 
 > `CamundaClient::make()` is a wrapper for [Laravel HTTP Client](https://laravel.com/docs/master/http-client) with base URL already set based on your Camunda services configuration. Take a look at the documentation for more information.
