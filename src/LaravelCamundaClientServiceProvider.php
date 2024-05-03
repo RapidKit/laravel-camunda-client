@@ -1,8 +1,8 @@
 <?php
 
-namespace BeyondCRUD\LaravelCamundaClient;
+namespace RapidKit\LaravelCamundaClient;
 
-use BeyondCRUD\LaravelCamundaClient\Commands\ConsumeExternalTaskCommand;
+use RapidKit\LaravelCamundaClient\Commands\ConsumeExternalTaskCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 

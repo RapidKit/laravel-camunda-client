@@ -1,11 +1,11 @@
 <?php
 
-namespace BeyondCRUD\LaravelCamundaClient\Http;
+namespace RapidKit\LaravelCamundaClient\Http;
 
-use BeyondCRUD\LaravelCamundaClient\Data\TaskData;
-use BeyondCRUD\LaravelCamundaClient\Data\VariableData;
-use BeyondCRUD\LaravelCamundaClient\Exceptions\CamundaException;
-use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
+use RapidKit\LaravelCamundaClient\Data\TaskData;
+use RapidKit\LaravelCamundaClient\Data\VariableData;
+use RapidKit\LaravelCamundaClient\Exceptions\CamundaException;
+use RapidKit\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
 
 class TaskClient extends CamundaClient
 {

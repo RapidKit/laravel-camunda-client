@@ -1,14 +1,13 @@
 {
-    "name": "beyondcrud/laravel-camunda-client",
+    "name": "rapidkit/laravel-camunda-client",
     "description": "High level model, something like Eloquent, to interact with Camunda resources via REST API.",
     "keywords": [
-        "beyondCRUD",
         "laravel",
         "laravolt",
         "camunda",
         "camunda client"
     ],
-    "homepage": "https://github.com/beyondcrud/laravel-camunda-client",
+    "homepage": "https://github.com/rapidkit/laravel-camunda-client",
     "license": "MIT",
     "authors": [
         {
@@ -46,13 +45,13 @@
     },
     "autoload": {
         "psr-4": {
-            "BeyondCRUD\\LaravelCamundaClient\\": "src/",
-            "BeyondCRUD\\LaravelCamundaClient\\Database\\Factories\\": "database/factories/"
+            "RapidKit\\LaravelCamundaClient\\": "src/",
+            "RapidKit\\LaravelCamundaClient\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "BeyondCRUD\\LaravelCamundaClient\\Tests\\": "tests/"
+            "RapidKit\\LaravelCamundaClient\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -74,10 +73,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "BeyondCRUD\\LaravelCamundaClient\\LaravelCamundaClientServiceProvider"
+                "RapidKit\\LaravelCamundaClient\\LaravelCamundaClientServiceProvider"
             ],
             "aliases": {
-                "LaravelCamundaClient": "BeyondCRUD\\LaravelCamundaClient\\Facades\\LaravelCamundaClient"
+                "LaravelCamundaClient": "RapidKit\\LaravelCamundaClient\\Facades\\LaravelCamundaClient"
             }
         }
     },

@@ -1,6 +1,6 @@
 <?php
 
-use BeyondCRUD\LaravelCamundaClient\Http\CamundaClient;
+use RapidKit\LaravelCamundaClient\Http\CamundaClient;
 
 it('call valid endpoint', function () {
     $response = CamundaClient::make()->get('version');

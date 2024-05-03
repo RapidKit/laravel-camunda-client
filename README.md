@@ -1,10 +1,10 @@
 # This is my package laravel-camunda-client
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/beyondcrud/laravel-camunda-client.svg?style=flat-square)](https://packagist.org/packages/beyondcrud/laravel-camunda-client)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/beyondcrud/laravel-camunda-client/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/beyondcrud/laravel-camunda-client/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Static Analysis Action Status](https://img.shields.io/github/actions/workflow/status/beyondcrud/laravel-camunda-client/phpstan.yml?branch=main&label=static%20analysis&style=flat-square)](https://github.com/beyondcrud/laravel-camunda-client/actions?query=workflow%3Aphpstan+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/beyondcrud/laravel-camunda-client/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/beyondcrud/laravel-camunda-client/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/beyondcrud/laravel-camunda-client.svg?style=flat-square)](https://packagist.org/packages/beyondcrud/laravel-camunda-client)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/rapidkit/laravel-camunda-client.svg?style=flat-square)](https://packagist.org/packages/rapidkit/laravel-camunda-client)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/rapidkit/laravel-camunda-client/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/rapidkit/laravel-camunda-client/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Static Analysis Action Status](https://img.shields.io/github/actions/workflow/status/rapidkit/laravel-camunda-client/phpstan.yml?branch=main&label=static%20analysis&style=flat-square)](https://github.com/rapidkit/laravel-camunda-client/actions?query=workflow%3Aphpstan+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/rapidkit/laravel-camunda-client/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/rapidkit/laravel-camunda-client/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/rapidkit/laravel-camunda-client.svg?style=flat-square)](https://packagist.org/packages/rapidkit/laravel-camunda-client)
 
 Introducing a convenient Laravel HTTP client wrapper designed to streamline your interactions with the Camunda REST API. This specialized tool simplifies the process of connecting your Laravel application to Camunda, allowing you to effortlessly send requests and retrieve data. With this wrapper, you can efficiently integrate Camunda's powerful workflow automation capabilities into your Laravel projects, making it easier than ever to orchestrate complex business processes and manage tasks seamlessly. Say goodbye to the hassles of manual API calls and hello to a smoother, more efficient workflow integration with Camunda.
 
@@ -13,7 +13,7 @@ Introducing a convenient Laravel HTTP client wrapper designed to streamline your
 You can install the package via composer:
 
 ```bash
-composer require beyondcrud/laravel-camunda-client
+composer require rapidkit/laravel-camunda-client
 ```
 
 You can publish the config file with:
@@ -38,7 +38,7 @@ return [
 ### Process Definition
 
 ```php
-use BeyondCRUD\LaravelCamundaClient\Http\ProcessDefinitionClient;
+use RapidKit\LaravelCamundaClient\Http\ProcessDefinitionClient;
 
 $variables = ['title' => ['value' => 'Sample Title', 'type' => 'string']];
 
@@ -67,7 +67,7 @@ Reference:
 ### Process Instance
 
 ```php
-use BeyondCRUD\LaravelCamundaClient\Http\ProcessInstanceClient;
+use RapidKit\LaravelCamundaClient\Http\ProcessInstanceClient;
 
 // Find by ID
 $processInstance = ProcessInstanceClient::find(id: 'some-id');
@@ -86,7 +86,7 @@ ProcessInstanceClient::delete(id: 'some-id');
 ### Message Start Event
 
 ```php
-use BeyondCRUD\LaravelCamundaClient\Http\MessageEventClient;
+use RapidKit\LaravelCamundaClient\Http\MessageEventClient;
 
 MessageEventClient::start(messageName: 'testing',  businessKey: 'businessKey');
 
@@ -97,7 +97,7 @@ MessageEventClient::start(messageName: 'testing',  businessKey: 'businessKey', v
 ### Task
 
 ```php
-use BeyondCRUD\LaravelCamundaClient\Http\TaskClient;
+use RapidKit\LaravelCamundaClient\Http\TaskClient;
 
 $task = TaskClient::find(id: 'task-id');
 $tasks = TaskClient::getByProcessInstanceId(id: 'process-instance-id');
@@ -116,7 +116,7 @@ $tasks = TaskClient::assign($task_id,  $user_id);
 ### External Task
 
 ```php
-use BeyondCRUD\LaravelCamundaClient\Http\ExternalTaskClient;
+use RapidKit\LaravelCamundaClient\Http\ExternalTaskClient;
 
 $topics = [['topicName' => 'pdf', 'lockDuration' => 600_000]];
 $externalTasks = ExternalTaskClient::fetchAndLock('worker1', $topics);
@@ -135,8 +135,8 @@ ExternalTaskClient::unlock($task->id)
 Create a new job to consume external task via `php artisan make:job <JobName>` and modify the skeleton:
 
 ```php
-use BeyondCRUD\LaravelCamundaClient\Data\ExternalTaskData;
-use BeyondCRUD\LaravelCamundaClient\Http\ExternalTaskClient;
+use RapidKit\LaravelCamundaClient\Data\ExternalTaskData;
+use RapidKit\LaravelCamundaClient\Http\ExternalTaskClient;
 
 public function __construct(
     public string $workerId,
@@ -147,7 +147,7 @@ public function __construct(
 public function handle()
 {
     // Do something with $this->task, e.g: get the variables and generate PDF
-    $variables = \BeyondCRUD\LaravelCamundaClient\Http\ProcessInstanceClient::variables($this->task->processDefinitionId);
+    $variables = \RapidKit\LaravelCamundaClient\Http\ProcessInstanceClient::variables($this->task->processDefinitionId);
     // PdfService::generate()
 
     // Complete the task
@@ -159,7 +159,7 @@ Subscribe to some topic:
 
 ```php
 // AppServiceProvider.php
-use BeyondCRUD\LaravelCamundaClient\Http\ExternalTaskClient;
+use RapidKit\LaravelCamundaClient\Http\ExternalTaskClient;
 
 public function boot()
 {
@@ -188,7 +188,7 @@ References:
 ### Task History (Completed Task)
 
 ```php
-use BeyondCRUD\LaravelCamundaClient\Http\TaskHistoryClient;
+use RapidKit\LaravelCamundaClient\Http\TaskHistoryClient;
 
 $completedTask = TaskHistoryClient::find(id: 'task-id');
 $completedTasks = TaskHistoryClient::getByProcessInstanceId(id: 'process-instance-id');
@@ -197,7 +197,7 @@ $completedTasks = TaskHistoryClient::getByProcessInstanceId(id: 'process-instanc
 ### Deployment
 
 ```php
-use BeyondCRUD\LaravelCamundaClient\Http\DeploymentClient;
+use RapidKit\LaravelCamundaClient\Http\DeploymentClient;
 
 // Deploy bpmn file(s)
 DeploymentClient::create('test-deploy', '/path/to/file.bpmn');
@@ -219,10 +219,10 @@ DeploymentClient::delete(id: 'test-deploy', cascade: $cascade);
 
 ### Raw Endpoint
 
-You can utilize `BeyondCRUD\LaravelCamundaClient\CamundaClient` to call any Camunda REST endpoint.
+You can utilize `RapidKit\LaravelCamundaClient\CamundaClient` to call any Camunda REST endpoint.
 
 ```php
-use BeyondCRUD\LaravelCamundaClient\CamundaClient;
+use RapidKit\LaravelCamundaClient\CamundaClient;
 
 $response = CamundaClient::make()->get('version');
 echo $response->status(); // 200

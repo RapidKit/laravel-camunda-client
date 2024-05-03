@@ -1,8 +1,8 @@
 <?php
 
-use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
-use BeyondCRUD\LaravelCamundaClient\Exceptions\ParseException;
-use BeyondCRUD\LaravelCamundaClient\Http\DeploymentClient;
+use RapidKit\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
+use RapidKit\LaravelCamundaClient\Exceptions\ParseException;
+use RapidKit\LaravelCamundaClient\Http\DeploymentClient;
 
 afterEach(function () {
     DeploymentClient::truncate(true);

@@ -1,5 +1,5 @@
 <?php
 
-use BeyondCRUD\LaravelCamundaClient\Tests\TestCase;
+use RapidKit\LaravelCamundaClient\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);

@@ -1,9 +1,9 @@
 <?php
 
-namespace BeyondCRUD\LaravelCamundaClient\Commands;
+namespace RapidKit\LaravelCamundaClient\Commands;
 
-use BeyondCRUD\LaravelCamundaClient\Http\ExternalTaskClient;
 use Illuminate\Console\Command;
+use RapidKit\LaravelCamundaClient\Http\ExternalTaskClient;
 
 class ConsumeExternalTaskCommand extends Command
 {

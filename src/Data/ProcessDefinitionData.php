@@ -1,6 +1,6 @@
 <?php
 
-namespace BeyondCRUD\LaravelCamundaClient\Data;
+namespace RapidKit\LaravelCamundaClient\Data;
 
 use Spatie\LaravelData\Data;
 
