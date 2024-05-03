@@ -27,32 +27,32 @@ class BPMNReader
 
         $forms = [];
         foreach ($nodes as $node) {
-            try {
-                $fields = $node->xpath('bpmn:extensionElements/camunda:formData/camunda:formField');
-                $formFields = [];
-                foreach ($fields as $field) {
-                    /** @var array */
-                    $array = $field->xpath('camunda:properties/camunda:property');
-                    $properties = collect($array)
-                        ->transform(fn (SimpleXMLElement $node) => [
-                            (string) $node->attributes('id') => (string) $node->attributes('value'),
-                        ])
-                        ->toArray();
+            $fields = $node->xpath('bpmn:extensionElements/camunda:formData/camunda:formField');
+            $formFields = [];
+            foreach ($fields as $field) {
+                /** @var array */
+                $array = $field->xpath('camunda:properties/camunda:property');
+                $properties = collect($array)
+                    ->transform(fn (SimpleXMLElement $node) => [
+                        (string) $node->attributes('id') => (string) $node->attributes('value'),
+                    ])
+                    ->toArray();
 
-                    $formFields[] = [
-                        'id' => (string) $field->attributes()->id,
-                        'label' => (string) $field->attributes()->label,
-                        'type' => (string) $field->attributes()->type,
-                        'properties' => $properties,
-                    ];
-                }
+                $formFields[] = [
+                    'id' => (string) $field->attributes()->id,
+                    'label' => (string) $field->attributes()->label,
+                    'type' => (string) $field->attributes()->type,
+                    'properties' => $properties,
+                ];
+            }
+
+            if (!empty($formFields)) {
                 $form = [
                     'id' => (string) $node->attributes()->id,
                     'label' => (string) $node->attributes()->name,
                     'fields' => $formFields,
                 ];
                 $forms[] = $form;
-            } catch (\ErrorException) {
             }
         }
 
