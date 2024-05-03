@@ -2,9 +2,9 @@
 
 namespace RapidKit\LaravelCamundaClient\Tests;
 
-use RapidKit\LaravelCamundaClient\LaravelCamundaClientServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
+use RapidKit\LaravelCamundaClient\LaravelCamundaClientServiceProvider;
 
 class TestCase extends Orchestra
 {

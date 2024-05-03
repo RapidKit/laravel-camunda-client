@@ -2,9 +2,9 @@
 
 namespace RapidKit\LaravelCamundaClient\Http;
 
-use RapidKit\LaravelCamundaClient\Exceptions\InvalidArgumentException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
+use RapidKit\LaravelCamundaClient\Exceptions\InvalidArgumentException;
 
 class CamundaClient
 {

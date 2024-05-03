@@ -2,9 +2,9 @@
 
 namespace RapidKit\LaravelCamundaClient\Http;
 
+use Illuminate\Support\Str;
 use RapidKit\LaravelCamundaClient\Data\ProcessInstanceData;
 use RapidKit\LaravelCamundaClient\Exceptions\InvalidArgumentException;
-use Illuminate\Support\Str;
 
 class MessageEventClient extends CamundaClient
 {

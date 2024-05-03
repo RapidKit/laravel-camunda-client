@@ -2,11 +2,11 @@
 
 namespace RapidKit\LaravelCamundaClient\Data;
 
+use Illuminate\Support\Collection;
 use RapidKit\LaravelCamundaClient\Data\Types\BooleanType;
 use RapidKit\LaravelCamundaClient\Data\Types\JsonType;
 use RapidKit\LaravelCamundaClient\Data\Types\ObjectType;
 use RapidKit\LaravelCamundaClient\Data\Types\StringType;
-use Illuminate\Support\Collection;
 
 /**
  * @template TKey of array-key

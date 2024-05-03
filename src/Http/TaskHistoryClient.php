@@ -2,11 +2,11 @@
 
 namespace RapidKit\LaravelCamundaClient\Http;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use RapidKit\LaravelCamundaClient\Data\TaskHistoryData;
 use RapidKit\LaravelCamundaClient\Exceptions\CamundaException;
 use RapidKit\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
 
 class TaskHistoryClient extends CamundaClient
 {
