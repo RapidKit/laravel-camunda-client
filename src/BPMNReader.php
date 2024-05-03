@@ -46,7 +46,7 @@ class BPMNReader
                 ];
             }
 
-            if (!empty($formFields)) {
+            if (! empty($formFields)) {
                 $form = [
                     'id' => (string) $node->attributes()->id,
                     'label' => (string) $node->attributes()->name,
