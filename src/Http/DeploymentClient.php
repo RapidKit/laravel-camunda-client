@@ -38,7 +38,7 @@ class DeploymentClient extends CamundaClient
 
         $response = $request->post('deployment/create', $multipart);
 
-        if ($response->status() === 400) {
+        if ($response->status() === 500) {
             /** @var string */
             $message = $response->json('message');
             throw new ParseException($message);
