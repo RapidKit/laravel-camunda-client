@@ -3,7 +3,7 @@
   <bpmn:collaboration id="proses_rekrutmen_sederhana">
     <bpmn:participant id="Participant_04ghwxp" name="Company" processRef="process_1" />
   </bpmn:collaboration>
-  <bpmn:process id="process_1" isExecutable="true">
+  <bpmn:process id="process_1" isExecutable="true" camunda:historyTimeToLive="P30D">
     <bpmn:laneSet id="LaneSet_0itlol0" />
     <bpmn:userTask id="review_administrasi" name="Review surat lamaran dan kelengkapan administrasi">
       <bpmn:extensionElements>
