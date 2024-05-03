@@ -1,8 +1,14 @@
 {
-    "name": "laravolt/camunda",
-    "description": "High level model, something like Eloquent, to interact with Camunda resources via REST API",
-    "keywords": ["laravel", "laravolt", "camunda"],
-    "homepage": "https://github.com/laravolt/camunda",
+    "name": "beyondcrud/laravel-camunda-client",
+    "description": "High level model, something like Eloquent, to interact with Camunda resources via REST API.",
+    "keywords": [
+        "beyondCRUD",
+        "laravel",
+        "laravolt",
+        "camunda",
+        "camunda client"
+    ],
+    "homepage": "https://github.com/beyondcrud/laravel-camunda-client",
     "license": "MIT",
     "authors": [
         {
@@ -10,38 +16,71 @@
             "email": "uyab.exe@gmail.com",
             "homepage": "https://laravolt.dev",
             "role": "Developer"
+        },
+        {
+            "name": "rama",
+            "email": "rama@qisthi.dev",
+            "homepage": "https://qisthi.dev",
+            "role": "Developer"
         }
     ],
     "require": {
-        "php": ">=8.0",
-        "ext-simplexml": "*",
-        "spatie/data-transfer-object": "^3.6.1",
-        "guzzlehttp/guzzle": "^7.2"
+        "php": "^8.1",
+        "guzzlehttp/guzzle": "^7.8",
+        "illuminate/contracts": "^10.0",
+        "spatie/laravel-data": "^3.8",
+        "spatie/laravel-package-tools": "^1.14.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.0",
+        "nunomaduro/collision": "^7.9",
+        "nunomaduro/larastan": "^2.0.1",
+        "orchestra/testbench": "^8.0",
+        "pestphp/pest": "^2.0",
+        "pestphp/pest-plugin-arch": "^2.0",
+        "pestphp/pest-plugin-laravel": "^2.0",
+        "pestphp/pest-plugin-type-coverage": "^2.2",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "phpstan/phpstan-phpunit": "^1.0"
     },
     "autoload": {
         "psr-4": {
-            "Laravolt\\Camunda\\": "src"
+            "BeyondCRUD\\LaravelCamundaClient\\": "src/",
+            "BeyondCRUD\\LaravelCamundaClient\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Laravolt\\Camunda\\Tests\\": "tests"
+            "BeyondCRUD\\LaravelCamundaClient\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "testCov": "vendor/bin/pest --coverage",
+        "testTCov": "vendor/bin/pest --type-coverage --min=100",
+        "qc": "composer testTCov && composer testCov",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
         }
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "2.x-dev"
-        },
         "laravel": {
             "providers": [
-                "Laravolt\\Camunda\\ServiceProvider"
-            ]
+                "BeyondCRUD\\LaravelCamundaClient\\LaravelCamundaClientServiceProvider"
+            ],
+            "aliases": {
+                "LaravelCamundaClient": "BeyondCRUD\\LaravelCamundaClient\\Facades\\LaravelCamundaClient"
+            }
         }
     },
-    "require-dev": {
-        "orchestra/testbench": "^6.11",
-        "brianium/paratest": "^6.2",
-        "friendsofphp/php-cs-fixer": "v3.0.0-rc.1",
-        "sempro/phpunit-pretty-print": "^1.4"
-    }
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

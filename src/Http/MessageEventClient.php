@@ -1,54 +1,53 @@
 <?php
 
-declare(strict_types=1);
+namespace BeyondCRUD\LaravelCamundaClient\Http;
 
-namespace Laravolt\Camunda\Http;
-
+use BeyondCRUD\LaravelCamundaClient\Data\ProcessInstanceData;
+use BeyondCRUD\LaravelCamundaClient\Exceptions\InvalidArgumentException;
 use Illuminate\Support\Str;
-use Laravolt\Camunda\Dto\ProcessDefinition;
-use Laravolt\Camunda\Dto\ProcessInstance;
-use Laravolt\Camunda\Exceptions\InvalidArgumentException;
-use Laravolt\Camunda\Exceptions\ObjectNotFoundException;
 
 class MessageEventClient extends CamundaClient
 {
-    public static function start(...$args): ProcessInstance
+    /**
+     * @param  array{messageName: string, businessKey: string, variables?: array}  $args
+     */
+    public static function start(...$args): ProcessInstanceData
     {
         $variables = $args['variables'] ?? [];
         $messageName = $args['messageName'] ?? null;
+        /** @var string */
         $businessKey = $args['businessKey'] ?? null;
 
-        if (!$messageName) {
+        if (! $messageName) {
             throw new InvalidArgumentException('Arg messageName cannot be null');
         }
 
-        if (!$businessKey) {
+        if (! $businessKey) {
             throw new InvalidArgumentException('Arg businessKey cannot be null');
         }
 
         $payload = [];
 
+        $payload['businessKey'] = $businessKey;
         $payload['messageName'] = $messageName;
-        if (!empty($variables)) {
-            $payload['variables'] = $variables;
-            $payload['withVariablesInReturn'] = true;
-        }
-        $payload ['processInstanceId'] = Str::uuid()->toString();
 
-        if ($businessKey) {
-            $payload['businessKey'] = $businessKey;
+        if (! empty($variables) && count($variables) !== 0) {
+            $payload['processVariables'] = $variables;
+            $payload['resultEnabled'] = true;
+            $payload['variablesInResultEnabled'] = true;
         }
+        $payload['processInstanceId'] = Str::uuid()->toString();
 
         $response = self::make()->post('message', $payload);
-        if ($response->successful()) {
-            return ProcessInstanceClient::findByBusniessKey($businessKey);
-//            return new ProcessInstance($response->json());
-//            return true;
+        if ($response->successful() && isset($payload['variablesInResultEnabled'])) {
+            /** @var array */
+            $array = $response->json();
+
+            return new ProcessInstanceData(...$array[0]['processInstance'] + ['variables' => $array[0]['variables']]);
+        } elseif ($response->successful()) {
+            return ProcessInstanceClient::findByBusinessKey($businessKey);
         }
 
         throw new InvalidArgumentException($response->body());
-//        return  false;
     }
-
-
 }

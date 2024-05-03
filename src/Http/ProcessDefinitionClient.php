@@ -1,29 +1,25 @@
 <?php
 
-declare(strict_types=1);
+namespace BeyondCRUD\LaravelCamundaClient\Http;
 
-namespace Laravolt\Camunda\Http;
-
-use Laravolt\Camunda\Dto\ProcessDefinition;
-use Laravolt\Camunda\Dto\ProcessInstance;
-use Laravolt\Camunda\Exceptions\InvalidArgumentException;
-use Laravolt\Camunda\Exceptions\ObjectNotFoundException;
+use BeyondCRUD\LaravelCamundaClient\Data\ProcessDefinitionData;
+use BeyondCRUD\LaravelCamundaClient\Data\ProcessInstanceData;
+use BeyondCRUD\LaravelCamundaClient\Exceptions\InvalidArgumentException;
+use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
 
 class ProcessDefinitionClient extends CamundaClient
 {
-    public static function start(...$args): ProcessInstance
+    /**
+     * @param  array{key: string, variables?: array, businessKey?: string}  $args
+     */
+    public static function start(...$args): ProcessInstanceData
     {
-        $variables = $args['variables'] ?? (object)[];
+        /** @var array */
+        $variables = $args['variables'] ?? [];
         $businessKey = $args['businessKey'] ?? null;
-//
-//        // At least one value must be set...
-//        if (empty($variables)) {
-//            throw new InvalidArgumentException('Cannot start process instance with empty variables');
-//        }
-
         $payload = [];
 
-        if (!empty($variables)) {
+        if (! empty($variables) && count($variables) !== 0) {
             $payload['variables'] = $variables;
             $payload['withVariablesInReturn'] = true;
         }
@@ -34,37 +30,55 @@ class ProcessDefinitionClient extends CamundaClient
         $path = self::makeIdentifierPath('process-definition/{identifier}/start', $args);
         $response = self::make()->post($path, $payload);
         if ($response->successful()) {
-            return new ProcessInstance($response->json());
+            /** @var array */
+            $array = $response->json();
+
+            return new ProcessInstanceData(...$array);
         }
 
         throw new InvalidArgumentException($response->body());
     }
 
+    /**
+     * @param  array  $args
+     */
     public static function xml(...$args): string
     {
         $path = self::makeIdentifierPath(path: 'process-definition/{identifier}/xml', args: $args);
+        /** @var string */
+        $string = self::make()->get($path)->json('bpmn20Xml');
 
-        return self::make()->get($path)->json('bpmn20Xml');
+        return $string;
     }
 
     public static function get(array $parameters = []): array
     {
         $processDefinition = [];
-        foreach (self::make()->get('process-definition', $parameters)->json() as $res) {
-            $processDefinition[] = new ProcessDefinition($res);
+        /** @var array<array> */
+        $array = self::make()->get('process-definition', $parameters)->json();
+        foreach ($array as $res) {
+            $processDefinition[] = ProcessDefinitionData::fromArray($res);
         }
 
         return $processDefinition;
     }
 
-    public static function find(...$args): ProcessDefinition
+    /**
+     * @param  array  $args
+     */
+    public static function find(...$args): ProcessDefinitionData
     {
         $response = self::make()->get(self::makeIdentifierPath('process-definition/{identifier}', $args));
 
         if ($response->status() === 404) {
-            throw new ObjectNotFoundException($response->json('message'));
+            /** @var string */
+            $message = $response->json('message');
+            throw new ObjectNotFoundException($message);
         }
 
-        return new ProcessDefinition($response->json());
+        /** @var array */
+        $array = $response->json();
+
+        return new ProcessDefinitionData(...$array);
     }
 }
