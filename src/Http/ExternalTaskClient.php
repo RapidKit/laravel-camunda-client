@@ -44,9 +44,7 @@ class ExternalTaskClient extends CamundaClient
     }
 
     /**
-     * @return ExternalTask[]
-     *
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
+     * @return ExternalTaskData[]
      */
     public static function getTaskLocked(): array
     {
@@ -54,7 +52,9 @@ class ExternalTaskClient extends CamundaClient
 
         $data = [];
         if ($response->successful()) {
-            foreach ($response->json() as $task) {
+            /** @var array<array> */
+            $array = $response->json();
+            foreach ($array as $task) {
                 $data[] = ExternalTaskData::from($task);
             }
         }
@@ -64,8 +64,6 @@ class ExternalTaskClient extends CamundaClient
 
     /**
      * @return ExternalTaskData[]
-     *
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
      */
     public static function fetchAndLock(string $workerId, array $topics, int $maxTasks = 10): array
     {
@@ -74,7 +72,9 @@ class ExternalTaskClient extends CamundaClient
 
         $data = [];
         if ($response->successful()) {
-            foreach ($response->json() as $task) {
+            /** @var array<array> */
+            $array = $response->json();
+            foreach ($array as $task) {
                 $data[] = ExternalTaskData::fromArray($task);
             }
         }
