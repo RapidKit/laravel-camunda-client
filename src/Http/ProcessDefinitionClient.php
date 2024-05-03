@@ -1,11 +1,11 @@
 <?php
 
-namespace BeyondCRUD\LaravelCamundaClient\Http;
+namespace RapidKit\LaravelCamundaClient\Http;
 
-use BeyondCRUD\LaravelCamundaClient\Data\ProcessDefinitionData;
-use BeyondCRUD\LaravelCamundaClient\Data\ProcessInstanceData;
-use BeyondCRUD\LaravelCamundaClient\Exceptions\InvalidArgumentException;
-use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
+use RapidKit\LaravelCamundaClient\Data\ProcessDefinitionData;
+use RapidKit\LaravelCamundaClient\Data\ProcessInstanceData;
+use RapidKit\LaravelCamundaClient\Exceptions\InvalidArgumentException;
+use RapidKit\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
 
 class ProcessDefinitionClient extends CamundaClient
 {

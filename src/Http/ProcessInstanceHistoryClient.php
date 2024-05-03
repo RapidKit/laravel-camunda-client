@@ -1,10 +1,10 @@
 <?php
 
-namespace BeyondCRUD\LaravelCamundaClient\Http;
+namespace RapidKit\LaravelCamundaClient\Http;
 
-use BeyondCRUD\LaravelCamundaClient\Data\ProcessInstanceHistoryData;
-use BeyondCRUD\LaravelCamundaClient\Data\VariableData;
-use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
+use RapidKit\LaravelCamundaClient\Data\ProcessInstanceHistoryData;
+use RapidKit\LaravelCamundaClient\Data\VariableData;
+use RapidKit\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
 
 class ProcessInstanceHistoryClient extends CamundaClient
 {

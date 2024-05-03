@@ -1,6 +1,6 @@
 <?php
 
-namespace BeyondCRUD\LaravelCamundaClient\Exceptions;
+namespace RapidKit\LaravelCamundaClient\Exceptions;
 
 class CamundaException extends \RuntimeException
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace BeyondCRUD\LaravelCamundaClient\Database\Factories;
+namespace RapidKit\LaravelCamundaClient\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 

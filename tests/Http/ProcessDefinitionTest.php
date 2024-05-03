@@ -1,10 +1,10 @@
 <?php
 
-use BeyondCRUD\LaravelCamundaClient\Data\ProcessDefinitionData;
-use BeyondCRUD\LaravelCamundaClient\Exceptions\InvalidArgumentException;
-use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
-use BeyondCRUD\LaravelCamundaClient\Http\DeploymentClient;
-use BeyondCRUD\LaravelCamundaClient\Http\ProcessDefinitionClient;
+use RapidKit\LaravelCamundaClient\Data\ProcessDefinitionData;
+use RapidKit\LaravelCamundaClient\Exceptions\InvalidArgumentException;
+use RapidKit\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
+use RapidKit\LaravelCamundaClient\Http\DeploymentClient;
+use RapidKit\LaravelCamundaClient\Http\ProcessDefinitionClient;
 
 afterEach(function () {
     DeploymentClient::truncate(true);
@@ -43,7 +43,7 @@ describe('deploy sample BPMN', function () {
         $processDefinitions = ProcessDefinitionClient::get();
 
         expect($processDefinitions)->toBeArray()->toHaveCount(1);
-        expect($processDefinitions[0])->toBeInstanceOf(\BeyondCRUD\LaravelCamundaClient\Data\ProcessDefinitionData::class);
+        expect($processDefinitions[0])->toBeInstanceOf(\RapidKit\LaravelCamundaClient\Data\ProcessDefinitionData::class);
     });
 
     it('can find by id', function () {

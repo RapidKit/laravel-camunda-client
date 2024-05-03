@@ -1,9 +1,9 @@
 <?php
 
-use BeyondCRUD\LaravelCamundaClient\Data\VariableCollection;
-use BeyondCRUD\LaravelCamundaClient\Http\DeploymentClient;
-use BeyondCRUD\LaravelCamundaClient\Http\ProcessDefinitionClient;
-use BeyondCRUD\LaravelCamundaClient\Http\ProcessInstanceClient;
+use RapidKit\LaravelCamundaClient\Data\VariableCollection;
+use RapidKit\LaravelCamundaClient\Http\DeploymentClient;
+use RapidKit\LaravelCamundaClient\Http\ProcessDefinitionClient;
+use RapidKit\LaravelCamundaClient\Http\ProcessInstanceClient;
 
 beforeEach(fn () => DeploymentClient::create('test', __DIR__.'/../../resources/bpmn/simple.bpmn'));
 afterEach(fn () => DeploymentClient::truncate(true));

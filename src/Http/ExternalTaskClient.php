@@ -1,9 +1,9 @@
 <?php
 
-namespace BeyondCRUD\LaravelCamundaClient\Http;
+namespace RapidKit\LaravelCamundaClient\Http;
 
-use BeyondCRUD\LaravelCamundaClient\Data\ExternalTaskData;
-use BeyondCRUD\LaravelCamundaClient\Exceptions\UnexpectedResponseException;
+use RapidKit\LaravelCamundaClient\Data\ExternalTaskData;
+use RapidKit\LaravelCamundaClient\Exceptions\UnexpectedResponseException;
 
 class ExternalTaskClient extends CamundaClient
 {

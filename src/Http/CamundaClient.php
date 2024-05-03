@@ -1,8 +1,8 @@
 <?php
 
-namespace BeyondCRUD\LaravelCamundaClient\Http;
+namespace RapidKit\LaravelCamundaClient\Http;
 
-use BeyondCRUD\LaravelCamundaClient\Exceptions\InvalidArgumentException;
+use RapidKit\LaravelCamundaClient\Exceptions\InvalidArgumentException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 

@@ -1,9 +1,9 @@
 <?php
 
-use BeyondCRUD\LaravelCamundaClient\Http\DeploymentClient;
-use BeyondCRUD\LaravelCamundaClient\Http\ExternalTaskClient;
-use BeyondCRUD\LaravelCamundaClient\Http\ProcessDefinitionClient;
-use BeyondCRUD\LaravelCamundaClient\Http\ProcessInstanceHistoryClient;
+use RapidKit\LaravelCamundaClient\Http\DeploymentClient;
+use RapidKit\LaravelCamundaClient\Http\ExternalTaskClient;
+use RapidKit\LaravelCamundaClient\Http\ProcessDefinitionClient;
+use RapidKit\LaravelCamundaClient\Http\ProcessInstanceHistoryClient;
 
 beforeEach(function () {
     DeploymentClient::create('External Task', __DIR__.'/../../resources/bpmn/external-task.bpmn');

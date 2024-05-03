@@ -1,6 +1,6 @@
 <?php
 
-use BeyondCRUD\LaravelCamundaClient\BPMNReader;
+use RapidKit\LaravelCamundaClient\BPMNReader;
 
 it('can parse form definition', function () {
     $file = __DIR__.'/../resources/bpmn/rekrutmen.bpmn';

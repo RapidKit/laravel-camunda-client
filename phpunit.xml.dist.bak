@@ -16,7 +16,7 @@
     backupStaticProperties="false"
 >
     <testsuites>
-        <testsuite name="BeyondCRUD Test Suite">
+        <testsuite name="RapidKit Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
