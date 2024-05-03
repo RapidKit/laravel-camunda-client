@@ -55,7 +55,7 @@ class ExternalTaskClient extends CamundaClient
         $data = [];
         if ($response->successful()) {
             foreach ($response->json() as $task) {
-                $data[] = new ExternalTask($task);
+                $data[] = ExternalTaskData::from($task);
             }
         }
 
@@ -72,20 +72,14 @@ class ExternalTaskClient extends CamundaClient
         $payload = ['workerId' => $workerId, 'maxTasks' => $maxTasks, 'topics' => $topics];
         $response = self::make()->post('external-task/fetchAndLock', $payload);
 
+        $data = [];
         if ($response->successful()) {
-            $data = [];
-            /** @var array<array> */
-            $array = $response->json();
-            foreach ($array as $raw) {
-                $data[] = ExternalTaskData::fromArray($raw);
+            foreach ($response->json() as $task) {
+                $data[] = ExternalTaskData::fromArray($task);
             }
-
-            return $data;
         }
 
-        /** @var string */
-        $message = $response->json('message');
-        throw new CamundaException($message);
+        return $data;
     }
 
     public static function complete(
