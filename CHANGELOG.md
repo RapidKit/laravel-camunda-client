@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-camunda-client` will be documented in this file.
 
+## v1.1.1 - 2024-07-22
+
+### What's Changed
+
+* Update Fork: laravolt/camunda branch master by @ramaID in https://github.com/RapidKit/laravel-camunda-client/pull/6
+* Update Fork by @ramaID in https://github.com/RapidKit/laravel-camunda-client/pull/5
+* feat/update fork by @ramaID in https://github.com/RapidKit/laravel-camunda-client/pull/9
+
+**Full Changelog**: https://github.com/RapidKit/laravel-camunda-client/compare/v1.1.0...v1.1.1
+
 ## v1.1.0 - 2024-05-03
 
 ### What's Changed
