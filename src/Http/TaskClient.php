@@ -2,10 +2,10 @@
 
 namespace RapidKit\LaravelCamundaClient\Http;
 
-use Illuminate\Contracts\Container\BindingResolutionException;
-use Psr\Container\NotFoundExceptionInterface;
-use Psr\Container\ContainerExceptionInterface;
 use Exception;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use RapidKit\LaravelCamundaClient\Data\TaskData;
 use RapidKit\LaravelCamundaClient\Data\VariableData;
 use RapidKit\LaravelCamundaClient\Exceptions\CamundaException;
@@ -133,9 +133,9 @@ class TaskClient extends CamundaClient
     }
 
     /**
-     * @param mixed $userID
-     * @param array $ids
+     * @param  mixed  $userID
      * @return TaskData[]
+     *
      * @throws BindingResolutionException
      * @throws NotFoundExceptionInterface
      * @throws ContainerExceptionInterface
