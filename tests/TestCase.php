@@ -1,10 +1,10 @@
 <?php
 
-namespace BeyondCRUD\LaravelCamundaClient\Tests;
+namespace RapidKit\LaravelCamundaClient\Tests;
 
-use BeyondCRUD\LaravelCamundaClient\LaravelCamundaClientServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
+use RapidKit\LaravelCamundaClient\LaravelCamundaClientServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -13,7 +13,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'BeyondCRUD\\LaravelCamundaClient\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'RapidKit\\LaravelCamundaClient\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 

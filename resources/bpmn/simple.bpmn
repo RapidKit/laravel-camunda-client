@@ -3,7 +3,7 @@
   <bpmn:collaboration id="Collaboration_1ko6c8h">
     <bpmn:participant id="Participant_1x5l492" name="Test Process" processRef="process_1" />
   </bpmn:collaboration>
-  <bpmn:process id="process_1" isExecutable="true">
+  <bpmn:process id="process_1" isExecutable="true" camunda:historyTimeToLive="P30D">
     <bpmn:startEvent id="start" name="start">
       <bpmn:outgoing>Flow_02wkiqx</bpmn:outgoing>
     </bpmn:startEvent>

@@ -1,13 +1,13 @@
 <?php
 
-use BeyondCRUD\LaravelCamundaClient\Data\TaskHistoryData;
-use BeyondCRUD\LaravelCamundaClient\Data\VariableData;
-use BeyondCRUD\LaravelCamundaClient\Exceptions\CamundaException;
-use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
-use BeyondCRUD\LaravelCamundaClient\Http\DeploymentClient;
-use BeyondCRUD\LaravelCamundaClient\Http\ProcessDefinitionClient;
-use BeyondCRUD\LaravelCamundaClient\Http\TaskClient;
-use BeyondCRUD\LaravelCamundaClient\Http\TaskHistoryClient;
+use RapidKit\LaravelCamundaClient\Data\TaskHistoryData;
+use RapidKit\LaravelCamundaClient\Data\VariableData;
+use RapidKit\LaravelCamundaClient\Exceptions\CamundaException;
+use RapidKit\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
+use RapidKit\LaravelCamundaClient\Http\DeploymentClient;
+use RapidKit\LaravelCamundaClient\Http\ProcessDefinitionClient;
+use RapidKit\LaravelCamundaClient\Http\TaskClient;
+use RapidKit\LaravelCamundaClient\Http\TaskHistoryClient;
 
 beforeEach(fn () => DeploymentClient::create('test', __DIR__.'/../../resources/bpmn/simple.bpmn'));
 afterEach(fn () => DeploymentClient::truncate(true));

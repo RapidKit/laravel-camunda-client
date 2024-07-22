@@ -1,10 +1,10 @@
 <?php
 
-namespace BeyondCRUD\LaravelCamundaClient\Http;
+namespace RapidKit\LaravelCamundaClient\Http;
 
-use BeyondCRUD\LaravelCamundaClient\Data\TenantData;
-use BeyondCRUD\LaravelCamundaClient\Exceptions\CamundaException;
-use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
+use RapidKit\LaravelCamundaClient\Data\TenantData;
+use RapidKit\LaravelCamundaClient\Exceptions\CamundaException;
+use RapidKit\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
 
 class TenantClient extends CamundaClient
 {

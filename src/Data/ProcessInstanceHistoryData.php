@@ -1,6 +1,6 @@
 <?php
 
-namespace BeyondCRUD\LaravelCamundaClient\Data;
+namespace RapidKit\LaravelCamundaClient\Data;
 
 use Illuminate\Support\Carbon;
 use Spatie\LaravelData\Data;

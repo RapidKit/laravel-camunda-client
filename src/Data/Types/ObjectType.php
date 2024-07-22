@@ -1,6 +1,6 @@
 <?php
 
-namespace BeyondCRUD\LaravelCamundaClient\Data\Types;
+namespace RapidKit\LaravelCamundaClient\Data\Types;
 
 use Illuminate\Support\Collection;
 

@@ -1,10 +1,9 @@
 <?php
 
-namespace BeyondCRUD\LaravelCamundaClient\Http;
+namespace RapidKit\LaravelCamundaClient\Http;
 
-use BeyondCRUD\LaravelCamundaClient\Data\ExternalTaskData;
-use BeyondCRUD\LaravelCamundaClient\Exceptions\CamundaException;
-use BeyondCRUD\LaravelCamundaClient\Exceptions\UnexpectedResponseException;
+use RapidKit\LaravelCamundaClient\Data\ExternalTaskData;
+use RapidKit\LaravelCamundaClient\Exceptions\UnexpectedResponseException;
 
 class ExternalTaskClient extends CamundaClient
 {
@@ -44,9 +43,7 @@ class ExternalTaskClient extends CamundaClient
     }
 
     /**
-     * @return ExternalTask[]
-     *
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
+     * @return ExternalTaskData[]
      */
     public static function getTaskLocked(): array
     {
@@ -54,8 +51,10 @@ class ExternalTaskClient extends CamundaClient
 
         $data = [];
         if ($response->successful()) {
-            foreach ($response->json() as $task) {
-                $data[] = new ExternalTask($task);
+            /** @var array<array> */
+            $array = $response->json();
+            foreach ($array as $task) {
+                $data[] = ExternalTaskData::from($task);
             }
         }
 
@@ -64,28 +63,22 @@ class ExternalTaskClient extends CamundaClient
 
     /**
      * @return ExternalTaskData[]
-     *
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
      */
     public static function fetchAndLock(string $workerId, array $topics, int $maxTasks = 10): array
     {
         $payload = ['workerId' => $workerId, 'maxTasks' => $maxTasks, 'topics' => $topics];
         $response = self::make()->post('external-task/fetchAndLock', $payload);
 
+        $data = [];
         if ($response->successful()) {
-            $data = [];
             /** @var array<array> */
             $array = $response->json();
-            foreach ($array as $raw) {
-                $data[] = ExternalTaskData::fromArray($raw);
+            foreach ($array as $task) {
+                $data[] = ExternalTaskData::fromArray($task);
             }
-
-            return $data;
         }
 
-        /** @var string */
-        $message = $response->json('message');
-        throw new CamundaException($message);
+        return $data;
     }
 
     public static function complete(

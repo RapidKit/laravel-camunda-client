@@ -1,10 +1,10 @@
 <?php
 
-use BeyondCRUD\LaravelCamundaClient\Data\ProcessInstanceData;
-use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
-use BeyondCRUD\LaravelCamundaClient\Http\DeploymentClient;
-use BeyondCRUD\LaravelCamundaClient\Http\ProcessDefinitionClient;
-use BeyondCRUD\LaravelCamundaClient\Http\ProcessInstanceClient;
+use RapidKit\LaravelCamundaClient\Data\ProcessInstanceData;
+use RapidKit\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
+use RapidKit\LaravelCamundaClient\Http\DeploymentClient;
+use RapidKit\LaravelCamundaClient\Http\ProcessDefinitionClient;
+use RapidKit\LaravelCamundaClient\Http\ProcessInstanceClient;
 
 beforeEach(function () {
     DeploymentClient::truncate(true);

@@ -1,10 +1,10 @@
 <?php
 
-namespace BeyondCRUD\LaravelCamundaClient\Http;
+namespace RapidKit\LaravelCamundaClient\Http;
 
-use BeyondCRUD\LaravelCamundaClient\Data\ProcessInstanceData;
-use BeyondCRUD\LaravelCamundaClient\Data\VariableData;
-use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
+use RapidKit\LaravelCamundaClient\Data\ProcessInstanceData;
+use RapidKit\LaravelCamundaClient\Data\VariableData;
+use RapidKit\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
 
 // use Laravolt\Camunda\Dto\ProcessInstance;
 // use Laravolt\Camunda\Dto\Variable;

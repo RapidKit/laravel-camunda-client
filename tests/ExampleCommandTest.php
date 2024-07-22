@@ -1,6 +1,6 @@
 <?php
 
-use BeyondCRUD\LaravelCamundaClient\Commands\ConsumeExternalTaskCommand;
+use RapidKit\LaravelCamundaClient\Commands\ConsumeExternalTaskCommand;
 
 use function Pest\Laravel\artisan;
 

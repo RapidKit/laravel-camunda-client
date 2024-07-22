@@ -1,5 +1,5 @@
 <?php
 
-namespace BeyondCRUD\LaravelCamundaClient;
+namespace RapidKit\LaravelCamundaClient;
 
 class LaravelCamundaClient {}

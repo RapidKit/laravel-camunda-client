@@ -1,8 +1,8 @@
 <?php
 
-use BeyondCRUD\LaravelCamundaClient\Data\ProcessInstanceData;
-use BeyondCRUD\LaravelCamundaClient\Http\DeploymentClient;
-use BeyondCRUD\LaravelCamundaClient\Http\MessageEventClient;
+use RapidKit\LaravelCamundaClient\Data\ProcessInstanceData;
+use RapidKit\LaravelCamundaClient\Http\DeploymentClient;
+use RapidKit\LaravelCamundaClient\Http\MessageEventClient;
 
 beforeEach(function () {
     DeploymentClient::create('External Task', __DIR__.'/../../resources/bpmn/simple.bpmn');

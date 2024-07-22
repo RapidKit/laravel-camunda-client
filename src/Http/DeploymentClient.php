@@ -1,10 +1,10 @@
 <?php
 
-namespace BeyondCRUD\LaravelCamundaClient\Http;
+namespace RapidKit\LaravelCamundaClient\Http;
 
-use BeyondCRUD\LaravelCamundaClient\Data\DeploymentData;
-use BeyondCRUD\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
-use BeyondCRUD\LaravelCamundaClient\Exceptions\ParseException;
+use RapidKit\LaravelCamundaClient\Data\DeploymentData;
+use RapidKit\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
+use RapidKit\LaravelCamundaClient\Exceptions\ParseException;
 
 class DeploymentClient extends CamundaClient
 {
@@ -38,7 +38,7 @@ class DeploymentClient extends CamundaClient
 
         $response = $request->post('deployment/create', $multipart);
 
-        if ($response->status() === 400) {
+        if ($response->status() === 500) {
             /** @var string */
             $message = $response->json('message');
             throw new ParseException($message);

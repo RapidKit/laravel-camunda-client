@@ -1,6 +1,6 @@
 <?php
 
-namespace BeyondCRUD\LaravelCamundaClient\Data;
+namespace RapidKit\LaravelCamundaClient\Data;
 
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Carbon;

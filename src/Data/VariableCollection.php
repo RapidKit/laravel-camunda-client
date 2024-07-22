@@ -1,12 +1,12 @@
 <?php
 
-namespace BeyondCRUD\LaravelCamundaClient\Data;
+namespace RapidKit\LaravelCamundaClient\Data;
 
-use BeyondCRUD\LaravelCamundaClient\Data\Types\BooleanType;
-use BeyondCRUD\LaravelCamundaClient\Data\Types\JsonType;
-use BeyondCRUD\LaravelCamundaClient\Data\Types\ObjectType;
-use BeyondCRUD\LaravelCamundaClient\Data\Types\StringType;
 use Illuminate\Support\Collection;
+use RapidKit\LaravelCamundaClient\Data\Types\BooleanType;
+use RapidKit\LaravelCamundaClient\Data\Types\JsonType;
+use RapidKit\LaravelCamundaClient\Data\Types\ObjectType;
+use RapidKit\LaravelCamundaClient\Data\Types\StringType;
 
 /**
  * @template TKey of array-key

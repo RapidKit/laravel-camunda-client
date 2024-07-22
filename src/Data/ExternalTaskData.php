@@ -1,6 +1,6 @@
 <?php
 
-namespace BeyondCRUD\LaravelCamundaClient\Data;
+namespace RapidKit\LaravelCamundaClient\Data;
 
 use Illuminate\Support\Carbon;
 use Spatie\LaravelData\Data;
@@ -15,6 +15,7 @@ class ExternalTaskData extends Data
         public ?string $executionId,
         public string $id,
         public ?Carbon $lockExpirationTime,
+        public ?Carbon $createTime,
         public string $processDefinitionId,
         public string $processDefinitionKey,
         public ?string $processDefinitionVersionTag,
@@ -33,6 +34,7 @@ class ExternalTaskData extends Data
 
     public static function fromArray(array $data): self
     {
+        $data['createTime'] = Carbon::parse($data['createTime']);
         $data['lockExpirationTime'] = Carbon::parse($data['lockExpirationTime']);
 
         return new self(...$data);
