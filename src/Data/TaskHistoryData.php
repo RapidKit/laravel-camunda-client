@@ -34,8 +34,7 @@ class TaskHistoryData extends Data
         public ?string $tenantId,
         public ?Carbon $removalTime,
         public string $rootProcessInstanceId,
-    ) {
-    }
+    ) {}
 
     public static function fromArray(array $data): self
     {

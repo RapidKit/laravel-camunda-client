@@ -21,8 +21,7 @@ class ProcessDefinitionData extends Data
         public ?string $versionTag,
         public ?string $historyTimeToLive,
         public bool $startableInTasklist,
-    ) {
-    }
+    ) {}
 
     public static function fromArray(array $data): self
     {

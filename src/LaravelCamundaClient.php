@@ -2,6 +2,4 @@
 
 namespace RapidKit\LaravelCamundaClient;
 
-class LaravelCamundaClient
-{
-}
+class LaravelCamundaClient {}

@@ -29,12 +29,16 @@ class ExternalTaskData extends Data
         public int $priority,
         public ?string $businessKey = null,
         public ?array $extensionProperties = [],
-    ) {
-    }
+    ) {}
 
     public static function fromArray(array $data): self
     {
-        $data['createTime'] = Carbon::parse($data['createTime']);
+        if (isset($data['createTime'])) {
+            $data['createTime'] = Carbon::parse($data['createTime']);
+        } else {
+            $data['createTime'] = null;
+        }
+
         $data['lockExpirationTime'] = Carbon::parse($data['lockExpirationTime']);
 
         return new self(...$data);

@@ -2,6 +2,10 @@
 
 namespace RapidKit\LaravelCamundaClient\Http;
 
+use Exception;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use RapidKit\LaravelCamundaClient\Data\TaskData;
 use RapidKit\LaravelCamundaClient\Data\VariableData;
 use RapidKit\LaravelCamundaClient\Exceptions\CamundaException;
@@ -46,7 +50,7 @@ class TaskClient extends CamundaClient
 
     public static function get(array $payload): array
     {
-        $response = self::make()->get('task', $payload);
+        $response = self::make()->post('task', $payload);
 
         $data = [];
         if ($response->successful()) {
@@ -72,7 +76,12 @@ class TaskClient extends CamundaClient
      */
     public static function getByProcessInstanceIds(array $ids): array
     {
-        $response = self::make()->get('task?processInstanceIdIn='.implode(',', $ids));
+        if (empty($ids)) {
+            return [];
+        }
+        $response = self::make()->post('task', [
+            'processInstanceIdIn' => $ids,
+        ]);
 
         $data = [];
         if ($response->successful()) {
@@ -123,22 +132,31 @@ class TaskClient extends CamundaClient
         return false;
     }
 
-    public static function getByAssignedAndProcessInstanceId(string $userID, array $ids = []): array
+    /**
+     * @param  mixed  $userID
+     * @return TaskData[]
+     *
+     * @throws BindingResolutionException
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws Exception
+     */
+    public static function getByAssignedAndProcessInstanceId($userID, array $ids = []): array
     {
-        $payload = [
-            'assignee' => $userID,
-        ];
+        $payload = ['assignee' => $userID];
+
         if ($ids != []) {
             $payload['processInstanceIdIn'] = implode(',', $ids);
         }
 
-        $response = self::make()->get('task', $payload);
+        $response = self::make()->post('task', $payload);
 
         $data = [];
         if ($response->successful()) {
             /** @var array */
             $array = $response->json();
             foreach ($array as $task) {
+                /** @var array $task */
                 $data[] = new TaskData(...$task);
             }
         }
