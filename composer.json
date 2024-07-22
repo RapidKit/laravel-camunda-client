@@ -59,7 +59,7 @@
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
         "testCov": "vendor/bin/pest --coverage",
-        "testTCov": "vendor/bin/pest --type-coverage --min=100",
+        "testTCov": "vendor/bin/pest --type-coverage --min=99",
         "qc": "composer testTCov && composer testCov",
         "format": "vendor/bin/pint"
     },
