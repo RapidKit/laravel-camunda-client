@@ -89,6 +89,21 @@ ProcessInstanceClient::delete(id: 'some-id');
 use BeyondCRUD\LaravelCamundaClient\Http\MessageEventClient;
 
 MessageEventClient::start(messageName: 'testing',  businessKey: 'businessKey');
+```
+
+### Message Event
+
+```php
+use Laravolt\Camunda\Http\MessageEventClient;
+// Start processinstance with message event
+// Required
+// messageName : message event name
+// businessKey : Busniess key for process instance
+
+// Rerturn Process insntance from message event
+
+MessageEventClient::start(messageName: "testing",  businessKey: "businessKey")
+
 
 $vars = ['title' => ['type' => 'String', 'value' => 'Sample Title']];
 MessageEventClient::start(messageName: 'testing',  businessKey: 'businessKey', variables: $vars);
@@ -128,6 +143,9 @@ foreach ($externalTasks as $externalTask) {
 
 // Release some task
 ExternalTaskClient::unlock($task->id)
+
+// Get task locked
+$externalTaskLocked = ExternalTaskClient::getTaskLocked();
 ```
 
 ### Consume External Task

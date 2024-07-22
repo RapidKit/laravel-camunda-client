@@ -2,6 +2,4 @@
 
 namespace BeyondCRUD\LaravelCamundaClient\Exceptions;
 
-class CamundaException extends \RuntimeException
-{
-}
+class CamundaException extends \RuntimeException {}

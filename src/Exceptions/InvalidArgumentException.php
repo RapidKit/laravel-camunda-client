@@ -2,6 +2,4 @@
 
 namespace BeyondCRUD\LaravelCamundaClient\Exceptions;
 
-class InvalidArgumentException extends CamundaException
-{
-}
+class InvalidArgumentException extends CamundaException {}

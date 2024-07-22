@@ -27,8 +27,7 @@ class ProcessInstanceHistoryData extends Data
         public ?string $caseInstanceId,
         public ?string $tenantId,
         public string $state,
-    ) {
-    }
+    ) {}
 
     public static function fromArray(array $data): self
     {

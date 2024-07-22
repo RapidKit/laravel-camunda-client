@@ -28,8 +28,8 @@ class ExternalTaskData extends Data
         public int $priority,
         public ?string $businessKey = null,
         public ?array $extensionProperties = [],
-    ) {
-    }
+        public ?string $createTime = null,
+    ) {}
 
     public static function fromArray(array $data): self
     {

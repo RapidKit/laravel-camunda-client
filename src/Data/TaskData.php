@@ -31,8 +31,7 @@ class TaskData extends Data
         public ?string $formKey = null,
         public ?array $camundaFormRef = null,
         public ?string $tenantId = null,
-    ) {
-    }
+    ) {}
 
     public static function fromArray(array $data): self
     {

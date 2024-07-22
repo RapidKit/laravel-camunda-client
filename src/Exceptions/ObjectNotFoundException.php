@@ -2,6 +2,4 @@
 
 namespace BeyondCRUD\LaravelCamundaClient\Exceptions;
 
-class ObjectNotFoundException extends CamundaException
-{
-}
+class ObjectNotFoundException extends CamundaException {}
