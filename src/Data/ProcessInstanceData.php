@@ -16,6 +16,5 @@ class ProcessInstanceData extends Data
         public bool $suspended,
         public ?string $tenantId = null,
         public ?array $variables = [],
-    ) {
-    }
+    ) {}
 }

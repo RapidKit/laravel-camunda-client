@@ -46,7 +46,7 @@ class TaskClient extends CamundaClient
 
     public static function get(array $payload): array
     {
-        $response = self::make()->post("task", $payload);
+        $response = self::make()->post('task', $payload);
 
         $data = [];
         if ($response->successful()) {
@@ -72,11 +72,11 @@ class TaskClient extends CamundaClient
      */
     public static function getByProcessInstanceIds(array $ids): array
     {
-        if(empty($ids)){
+        if (empty($ids)) {
             return [];
         }
-        $response = self::make()->post("task", [
-            "processInstanceIdIn" =>  $ids
+        $response = self::make()->post('task', [
+            'processInstanceIdIn' => $ids,
         ]);
 
         $data = [];
@@ -91,10 +91,10 @@ class TaskClient extends CamundaClient
         return $data;
     }
 
-    public static function claim(string $id,  string $userId): bool
+    public static function claim(string $id, string $userId): bool
     {
         $response = self::make()->post("task/$id/claim", [
-            "userId" => $userId
+            'userId' => $userId,
         ]);
 
         if ($response->successful()) {
@@ -118,7 +118,7 @@ class TaskClient extends CamundaClient
     public static function assign(string $id, string $userId): bool
     {
         $response = self::make()->post("task/$id/assignee", [
-            "userId" => $userId
+            'userId' => $userId,
         ]);
 
         if ($response->successful()) {
@@ -128,11 +128,10 @@ class TaskClient extends CamundaClient
         return false;
     }
 
-
     /**
-     * @param string $processInstanceIds
-     *
+     * @param  string  $processInstanceIds
      * @return Task[]
+     *
      * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
      */
     public static function getByAssignedAndProcessInstanceId($userID, array $ids = []): array
@@ -143,7 +142,7 @@ class TaskClient extends CamundaClient
             $payload['processInstanceIdIn'] = implode(',', $ids);
         }
 
-        $response = self::make()->post("task", $payload);
+        $response = self::make()->post('task', $payload);
 
         $data = [];
         if ($response->successful()) {
@@ -159,9 +158,9 @@ class TaskClient extends CamundaClient
 
     public static function submit(string $id, array $variables): bool
     {
-        $varData = (object)[];
-        if (!empty($variables)) {
-            $varData = (object)$variables;
+        $varData = (object) [];
+        if (! empty($variables)) {
+            $varData = (object) $variables;
         }
         $response = self::make()->post(
             "task/$id/submit-form",

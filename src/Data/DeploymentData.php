@@ -20,8 +20,7 @@ class DeploymentData extends Data
         public ?array $deployedCaseDefinitions = [],
         public ?array $deployedDecisionDefinitions = [],
         public ?array $deployedDecisionRequirementsDefinitions = [],
-    ) {
-    }
+    ) {}
 
     public static function fromResponse(Response $response): self
     {

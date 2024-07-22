@@ -29,8 +29,7 @@ class ExternalTaskData extends Data
         public ?string $businessKey = null,
         public ?array $extensionProperties = [],
         public ?string $createTime = null,
-    ) {
-    }
+    ) {}
 
     public static function fromArray(array $data): self
     {

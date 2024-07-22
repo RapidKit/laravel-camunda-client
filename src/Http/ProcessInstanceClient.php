@@ -18,7 +18,7 @@ class ProcessInstanceClient extends CamundaClient
     {
         $instances = [];
 
-        if (!$parameters) {
+        if (! $parameters) {
             $res = self::make()->get('process-instance');
         } else {
             $res = self::make()->post('process-instance', $parameters);
@@ -47,14 +47,13 @@ class ProcessInstanceClient extends CamundaClient
          * `operator` can only contain `eq`, `neq`, `gt`, `gte`, `lt`, `lte`
          * Check Camunda documentation for more information
          */
-
         $instances = [];
 
-        if (!$variables) {
+        if (! $variables) {
             $res = self::make()->get('process-instance');
         } else {
             $res = self::make()->post('process-instance', [
-                'variables' => $variables
+                'variables' => $variables,
 
             ]);
         }
@@ -84,8 +83,8 @@ class ProcessInstanceClient extends CamundaClient
     public static function findByBusinessKey(string $businessKey): ProcessInstanceData
     {
 
-        $response = self::make()->post("process-instance", [
-            'businessKey' => $businessKey
+        $response = self::make()->post('process-instance', [
+            'businessKey' => $businessKey,
         ]);
 
         if ($response->status() === 404) {
@@ -97,11 +96,11 @@ class ProcessInstanceClient extends CamundaClient
         /** @var array */
         $data = $response->json();
 
-        if (sizeof($data) ==  0) {
-            throw new ObjectNotFoundException("Process Instance Not Found");
+        if (count($data) == 0) {
+            throw new ObjectNotFoundException('Process Instance Not Found');
         }
 
-        return new ProcessInstanceData(...$data[sizeof($data) - 1]);
+        return new ProcessInstanceData(...$data[count($data) - 1]);
     }
 
     /**

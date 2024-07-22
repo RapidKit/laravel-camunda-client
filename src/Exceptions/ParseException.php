@@ -2,6 +2,4 @@
 
 namespace BeyondCRUD\LaravelCamundaClient\Exceptions;
 
-class ParseException extends CamundaException
-{
-}
+class ParseException extends CamundaException {}

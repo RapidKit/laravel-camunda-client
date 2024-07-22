@@ -2,6 +2,4 @@
 
 namespace BeyondCRUD\LaravelCamundaClient;
 
-class LaravelCamundaClient
-{
-}
+class LaravelCamundaClient {}
