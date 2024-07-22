@@ -12,8 +12,7 @@ class VariableData extends Data
         public string $type,
         public mixed $value,
         public ?array $valueInfo = [],
-    ) {
-    }
+    ) {}
 
     /**
      * @return self[]
