@@ -2,6 +2,10 @@
 
 namespace RapidKit\LaravelCamundaClient\Http;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Exception;
 use RapidKit\LaravelCamundaClient\Data\TaskData;
 use RapidKit\LaravelCamundaClient\Data\VariableData;
 use RapidKit\LaravelCamundaClient\Exceptions\CamundaException;
@@ -129,10 +133,13 @@ class TaskClient extends CamundaClient
     }
 
     /**
-     * @param  string  $processInstanceIds
-     * @return Task[]
-     *
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
+     * @param mixed $userID
+     * @param array $ids
+     * @return TaskData[]
+     * @throws BindingResolutionException
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws Exception
      */
     public static function getByAssignedAndProcessInstanceId($userID, array $ids = []): array
     {
@@ -149,6 +156,7 @@ class TaskClient extends CamundaClient
             /** @var array */
             $array = $response->json();
             foreach ($array as $task) {
+                /** @var array $task */
                 $data[] = new TaskData(...$task);
             }
         }

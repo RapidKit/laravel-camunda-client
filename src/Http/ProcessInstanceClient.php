@@ -2,12 +2,13 @@
 
 namespace RapidKit\LaravelCamundaClient\Http;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Exception;
 use RapidKit\LaravelCamundaClient\Data\ProcessInstanceData;
 use RapidKit\LaravelCamundaClient\Data\VariableData;
 use RapidKit\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
-
-// use Laravolt\Camunda\Dto\ProcessInstance;
-// use Laravolt\Camunda\Dto\Variable;
 
 class ProcessInstanceClient extends CamundaClient
 {
@@ -24,7 +25,9 @@ class ProcessInstanceClient extends CamundaClient
             $res = self::make()->post('process-instance', $parameters);
         }
 
-        foreach ($res->json() as $res) {
+        /** @var array $array */
+        $array = $res->json();
+        foreach ($array as $res) {
             $instances[] = new ProcessInstanceData(...$res);
         }
 
@@ -52,12 +55,13 @@ class ProcessInstanceClient extends CamundaClient
         if (! $variables) {
             $res = self::make()->get('process-instance');
         } else {
-            $res = self::make()->post('process-instance', [
-                'variables' => $variables,
-
-            ]);
+            $res = self::make()->post('process-instance', ['variables' => $variables]);
         }
-        foreach ($res->json() as $res) {
+
+        /** @var array $array */
+        $array = $res->json();
+        foreach ($array as $res) {
+            /** @var array $res */
             $instances[] = new ProcessInstanceData(...$res);
         }
 
