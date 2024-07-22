@@ -33,9 +33,10 @@ class ExternalTaskData extends Data
 
     public static function fromArray(array $data): self
     {
-        $data['createTime'] = null;
         if (isset($data['createTime'])) {
             $data['createTime'] = Carbon::parse($data['createTime']);
+        } else {
+            $data['createTime'] = null;
         }
 
         $data['lockExpirationTime'] = Carbon::parse($data['lockExpirationTime']);
