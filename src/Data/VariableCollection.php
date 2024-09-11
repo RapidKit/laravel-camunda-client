@@ -29,7 +29,7 @@ class VariableCollection extends Collection
                 default => StringType::class,
             };
 
-            $variables[$key] = (new $typeClass())($value);
+            $variables[$key] = (new $typeClass)($value);
         }
 
         return $variables;

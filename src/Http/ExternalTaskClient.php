@@ -67,15 +67,20 @@ class ExternalTaskClient extends CamundaClient
     public static function fetchAndLock(string $workerId, array $topics, int $maxTasks = 10): array
     {
         $payload = ['workerId' => $workerId, 'maxTasks' => $maxTasks, 'topics' => $topics];
-        $response = self::make()->post('external-task/fetchAndLock', $payload);
+        $url = 'external-task/fetchAndLock';
+        $response = self::make()->post($url, $payload);
+
+        if (! $response->successful()) {
+            /** @var array */
+            $array = $response->json();
+            throw (new UnexpectedResponseException)->for($url, $payload, $array);
+        }
 
         $data = [];
-        if ($response->successful()) {
-            /** @var array<array> */
-            $array = $response->json();
-            foreach ($array as $task) {
-                $data[] = ExternalTaskData::fromArray($task);
-            }
+        /** @var array<array> */
+        $array = $response->json();
+        foreach ($array as $task) {
+            $data[] = ExternalTaskData::fromArray($task);
         }
 
         return $data;
@@ -113,7 +118,6 @@ class ExternalTaskClient extends CamundaClient
         string $errorMessage = 'Does not compute',
         int $retryTimeout = 60000,
     ): bool {
-
         $payload = compact('workerId', 'errorMessage', 'retryTimeout');
         $url = "external-task/$id/failure";
         $response = self::make()->post($url, $payload);
