@@ -1,36 +1,36 @@
 <?php
 
-namespace Laravolt\Camunda\Tests;
+namespace RapidKit\LaravelCamundaClient\Tests;
 
-use Laravolt\Camunda\Dto\Deployment;
-use Laravolt\Camunda\Http\DeploymentClient;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Orchestra\Testbench\TestCase as Orchestra;
+use RapidKit\LaravelCamundaClient\LaravelCamundaClientServiceProvider;
 
-class TestCase extends \Orchestra\Testbench\TestCase
+class TestCase extends Orchestra
 {
-    /**
-     * Define environment setup.
-     *
-     * @param  \Illuminate\Foundation\Application  $app
-     *
-     * @return void
-     */
-    protected function getEnvironmentSetUp($app)
+    protected function setUp(): void
     {
-        $app['config']->set('app.name', env('APP_NAME'));
-        $app['config']->set('app.env', env('APP_ENV'));
-        $app['config']->set('services.camunda.url', env('CAMUNDA_URL'));
+        parent::setUp();
+
+        Factory::guessFactoryNamesUsing(
+            fn (string $modelName) => 'RapidKit\\LaravelCamundaClient\\Database\\Factories\\'.class_basename($modelName).'Factory'
+        );
     }
 
-    protected function deploySampleBpmn(): Deployment
+    protected function getPackageProviders($app)
     {
-        $files = [__DIR__.'/../resources/sample.bpmn'];
-        
-
-        return DeploymentClient::create('process_1', $files);
+        return [
+            LaravelCamundaClientServiceProvider::class,
+        ];
     }
 
-    protected function truncateDeployment(): void
+    public function getEnvironmentSetUp($app)
     {
-        DeploymentClient::truncate(true);
+        config()->set('database.default', 'testing');
+
+        /*
+        $migration = include __DIR__.'/../database/migrations/create_laravel-camunda-client_table.php.stub';
+        $migration->up();
+        */
     }
 }

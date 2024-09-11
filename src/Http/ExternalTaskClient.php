@@ -1,10 +1,9 @@
 <?php
 
-namespace Laravolt\Camunda\Http;
+namespace RapidKit\LaravelCamundaClient\Http;
 
-use Laravolt\Camunda\Dto\ExternalTask;
-use Laravolt\Camunda\Exceptions\CamundaException;
-use Laravolt\Camunda\Exceptions\UnexpectedResponseException;
+use RapidKit\LaravelCamundaClient\Data\ExternalTaskData;
+use RapidKit\LaravelCamundaClient\Exceptions\UnexpectedResponseException;
 
 class ExternalTaskClient extends CamundaClient
 {
@@ -15,10 +14,6 @@ class ExternalTaskClient extends CamundaClient
         return self::$subscribers;
     }
 
-    /**
-     * @param string $topic
-     * @param class-string|array $job
-     */
     public static function subscribe(string $topic, string|array $job): void
     {
         self::$subscribers[$topic] = [
@@ -29,10 +24,7 @@ class ExternalTaskClient extends CamundaClient
     }
 
     /**
-     * @param string $processInstanceId
-     *
-     * @return ExternalTask[]
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
+     * @return ExternalTaskData[]
      */
     public static function getByProcessInstanceId(string $id): array
     {
@@ -40,8 +32,10 @@ class ExternalTaskClient extends CamundaClient
 
         $data = [];
         if ($response->successful()) {
-            foreach ($response->json() as $task) {
-                $data[] = new ExternalTask($task);
+            /** @var array<array> */
+            $array = $response->json();
+            foreach ($array as $task) {
+                $data[] = ExternalTaskData::fromArray($task);
             }
         }
 
@@ -49,17 +43,18 @@ class ExternalTaskClient extends CamundaClient
     }
 
     /**
-     * @return ExternalTask[]
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
+     * @return ExternalTaskData[]
      */
     public static function getTaskLocked(): array
     {
-        $response = self::make()->get("external-task?locked=true");
+        $response = self::make()->get('external-task?locked=true');
 
         $data = [];
         if ($response->successful()) {
-            foreach ($response->json() as $task) {
-                $data[] = new ExternalTask($task);
+            /** @var array<array> */
+            $array = $response->json();
+            foreach ($array as $task) {
+                $data[] = ExternalTaskData::from($task);
             }
         }
 
@@ -67,33 +62,28 @@ class ExternalTaskClient extends CamundaClient
     }
 
     /**
-     * @param string $workerId
-     * @param array $topics
-     * @param int $maxTasks
-     *
-     * @return ExternalTask[]
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
+     * @return ExternalTaskData[]
      */
     public static function fetchAndLock(string $workerId, array $topics, int $maxTasks = 10): array
     {
-        $payload = [
-            'workerId' => $workerId,
-            'maxTasks' => $maxTasks,
-            'topics' => $topics,
-        ];
+        $payload = ['workerId' => $workerId, 'maxTasks' => $maxTasks, 'topics' => $topics];
+        $url = 'external-task/fetchAndLock';
+        $response = self::make()->post($url, $payload);
 
-        $response = self::make()->post("external-task/fetchAndLock", $payload);
-
-        if ($response->successful()) {
-            $data = [];
-            foreach ($response->json() as $raw) {
-                $data[] = new ExternalTask($raw);
-            }
-
-            return $data;
+        if (! $response->successful()) {
+            /** @var array */
+            $array = $response->json();
+            throw (new UnexpectedResponseException)->($url, $payload, $array);
         }
 
-        throw new CamundaException($response->json('message') ?? $response->body());
+        $data = [];
+        /** @var array<array> */
+        $array = $response->json();
+        foreach ($array as $task) {
+            $data[] = ExternalTaskData::fromArray($task);
+        }
+
+        return $data;
     }
 
     public static function complete(
@@ -114,33 +104,33 @@ class ExternalTaskClient extends CamundaClient
         $isSuccessful = $response->status() === 204;
 
         if (! $isSuccessful) {
-            throw (new UnexpectedResponseException)->for($url, $payload, $response->json());
+            /** @var array */
+            $array = $response->json();
+            throw (new UnexpectedResponseException)->for($url, $payload, $array);
         }
 
         return $isSuccessful;
     }
 
-
     public static function fail(
         string $id,
         string $workerId,
-        string $errorMessage = "Does not compute",
-        int    $retryTimeout = 60000,
-    ): bool
-    {
-
+        string $errorMessage = 'Does not compute',
+        int $retryTimeout = 60000,
+    ): bool {
         $payload = compact('workerId', 'errorMessage', 'retryTimeout');
         $url = "external-task/$id/failure";
         $response = self::make()->post($url, $payload);
         $isSuccessful = $response->status() === 204;
 
-        if (!$isSuccessful) {
-            throw (new UnexpectedResponseException)->for($url, $payload, $response->json());
+        if (! $isSuccessful) {
+            /** @var array */
+            $array = $response->json();
+            throw (new UnexpectedResponseException)->for($url, $payload, $array);
         }
 
         return $isSuccessful;
     }
-
 
     public static function unlock(string $id): bool
     {

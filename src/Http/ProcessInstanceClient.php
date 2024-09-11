@@ -1,25 +1,31 @@
 <?php
 
-declare(strict_types=1);
+namespace RapidKit\LaravelCamundaClient\Http;
 
-namespace Laravolt\Camunda\Http;
+use RapidKit\LaravelCamundaClient\Data\ProcessInstanceData;
+use RapidKit\LaravelCamundaClient\Data\VariableData;
+use RapidKit\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
 
-use Laravolt\Camunda\Dto\ProcessInstance;
-use Laravolt\Camunda\Dto\Variable;
-use Laravolt\Camunda\Exceptions\ObjectNotFoundException;
+// use Laravolt\Camunda\Dto\ProcessInstance;
+// use Laravolt\Camunda\Dto\Variable;
 
 class ProcessInstanceClient extends CamundaClient
 {
+    /**
+     * @return ProcessInstanceData[]
+     */
     public static function get(array $parameters = []): array
     {
         $instances = [];
-        if (!$parameters) {
+
+        if (! $parameters) {
             $res = self::make()->get('process-instance');
         } else {
             $res = self::make()->post('process-instance', $parameters);
         }
+
         foreach ($res->json() as $res) {
-            $instances[] = new ProcessInstance($res);
+            $instances[] = new ProcessInstanceData(...$res);
         }
 
         return $instances;
@@ -41,70 +47,70 @@ class ProcessInstanceClient extends CamundaClient
          * `operator` can only contain `eq`, `neq`, `gt`, `gte`, `lt`, `lte`
          * Check Camunda documentation for more information
          */
-
         $instances = [];
 
-        if (!$variables) {
+        if (! $variables) {
             $res = self::make()->get('process-instance');
         } else {
             $res = self::make()->post('process-instance', [
-                'variables' => $variables
+                'variables' => $variables,
 
             ]);
         }
         foreach ($res->json() as $res) {
-            $instances[] = new ProcessInstance($res);
+            $instances[] = new ProcessInstanceData(...$res);
         }
 
         return $instances;
     }
 
-    public static function find(string $id): ProcessInstance
+    public static function find(string $id): ProcessInstanceData
     {
         $response = self::make()->get("process-instance/$id");
 
         if ($response->status() === 404) {
-            throw new ObjectNotFoundException($response->json('message'));
+            /** @var string */
+            $message = $response->json('message');
+            throw new ObjectNotFoundException($message);
         }
 
-        return new ProcessInstance($response->json());
+        /** @var array */
+        $array = $response->json();
+
+        return new ProcessInstanceData(...$array);
     }
 
-
-    public static function findByBusniessKey(string $businessKey): ProcessInstance
+    public static function findByBusinessKey(string $businessKey): ProcessInstanceData
     {
 
-        $response = self::make()->post("process-instance", [
-            'businessKey' => $businessKey
+        $response = self::make()->post('process-instance', [
+            'businessKey' => $businessKey,
         ]);
 
         if ($response->status() === 404) {
-            throw new ObjectNotFoundException($response->json('message'));
+            /** @var string */
+            $message = $response->json('message');
+            throw new ObjectNotFoundException($message);
         }
 
-        $data =  $response->json();
+        /** @var array */
+        $data = $response->json();
 
-        if (sizeof($data) ==  0) {
-            throw new ObjectNotFoundException("Process Instance Not Found");
+        if (count($data) == 0) {
+            throw new ObjectNotFoundException('Process Instance Not Found');
         }
 
-        return new ProcessInstance($data[sizeof($data) - 1]);
+        return new ProcessInstanceData(...$data[count($data) - 1]);
     }
 
+    /**
+     * @return VariableData[]
+     */
     public static function variables(string $id): array
     {
-        $variables = self::make()->get("process-instance/$id/variables", ['deserializeValues' => false])->json();
-
-        return collect($variables)->mapWithKeys(
-            fn ($data, $name) => [
-                $name => new Variable(
-                    name: $name,
-                    value: $data['value'],
-                    type: $data['type'],
-                    valueInfo: $data['valueInfo'] ?? []
-                ),
-            ]
-        )->toArray();
+        return VariableData::fromResponse(
+            self::make()->get("process-instance/$id/variables", ['deserializeValues' => false])
+        );
     }
 
     public static function delete(string $id): bool

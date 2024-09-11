@@ -1,7 +1,5 @@
 <?php
 
-namespace Laravolt\Camunda\Exceptions;
+namespace RapidKit\LaravelCamundaClient\Exceptions;
 
-class ParseException extends CamundaException
-{
-}
+class ParseException extends CamundaException {}

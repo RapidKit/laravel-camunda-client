@@ -1,7 +1,5 @@
 <?php
 
-namespace Laravolt\Camunda\Exceptions;
+namespace RapidKit\LaravelCamundaClient\Exceptions;
 
-class ObjectNotFoundException extends CamundaException
-{
-}
+class ObjectNotFoundException extends CamundaException {}

@@ -1,31 +1,32 @@
 <?php
 
-namespace Laravolt\Camunda\Http;
+namespace RapidKit\LaravelCamundaClient\Http;
 
-use Laravolt\Camunda\Dto\Casters\VariablesCaster;
-use Laravolt\Camunda\Dto\Task;
-use Laravolt\Camunda\Dto\Variable;
-use Laravolt\Camunda\Exceptions\CamundaException;
-use Laravolt\Camunda\Exceptions\ObjectNotFoundException;
+use RapidKit\LaravelCamundaClient\Data\TaskData;
+use RapidKit\LaravelCamundaClient\Data\VariableData;
+use RapidKit\LaravelCamundaClient\Exceptions\CamundaException;
+use RapidKit\LaravelCamundaClient\Exceptions\ObjectNotFoundException;
 
 class TaskClient extends CamundaClient
 {
-    public static function find(string $id): Task
+    public static function find(string $id): TaskData
     {
         $response = self::make()->get("task/$id");
 
         if ($response->status() === 404) {
-            throw new ObjectNotFoundException($response->json('message'));
+            /** @var string */
+            $message = $response->json('message');
+            throw new ObjectNotFoundException($message);
         }
 
-        return new Task($response->json());
+        /** @var array */
+        $array = $response->json();
+
+        return TaskData::fromArray($array);
     }
 
     /**
-     * @param  string  $processInstanceId
-     *
-     * @return Task[]
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
+     * @return TaskData[]
      */
     public static function getByProcessInstanceId(string $id): array
     {
@@ -33,75 +34,67 @@ class TaskClient extends CamundaClient
 
         $data = [];
         if ($response->successful()) {
-            foreach ($response->json() as $task) {
-                $data[] = new Task($task);
+            /** @var array */
+            $array = $response->json();
+            foreach ($array as $task) {
+                $data[] = TaskData::fromArray($task);
             }
         }
 
         return $data;
     }
 
-
-    /**
-     * @param array $payload
-     *
-     * @return Task[]
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
-     */
     public static function get(array $payload): array
     {
-        $response = self::make()->post("task", $payload);
+        $response = self::make()->post('task', $payload);
 
         $data = [];
         if ($response->successful()) {
-            foreach ($response->json() as $task) {
-                $data[] = new Task($task);
+            /** @var array */
+            $array = $response->json();
+            foreach ($array as $task) {
+                $data[] = new TaskData(...$task);
             }
         }
+
         return $data;
     }
-    /**
-     * @param array $payload
-     *
-     * @return Task[]
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
-     */
+
     public static function unfinishedTask(array $payload): array
     {
-        $payload['unfinished'] =  true;
+        $payload['unfinished'] = true;
+
         return self::get($payload);
     }
 
-
     /**
-     * @param string $processInstanceIds
-     *
-     * @return Task[]
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
+     * @return TaskData[]
      */
     public static function getByProcessInstanceIds(array $ids): array
     {
-        if(empty($ids)){
+        if (empty($ids)) {
             return [];
         }
-        $response = self::make()->post("task", [
-            "processInstanceIdIn" =>  $ids
+        $response = self::make()->post('task', [
+            'processInstanceIdIn' => $ids,
         ]);
 
         $data = [];
         if ($response->successful()) {
-            foreach ($response->json() as $task) {
-                $data[] = new Task($task);
+            /** @var array */
+            $array = $response->json();
+            foreach ($array as $task) {
+                $data[] = TaskData::fromArray($task);
             }
         }
 
         return $data;
     }
 
-    public static function claim(string $id,  string $userId): bool
+    public static function claim(string $id, string $userId): bool
     {
         $response = self::make()->post("task/$id/claim", [
-            "userId" => $userId
+            'userId' => $userId,
         ]);
 
         if ($response->successful()) {
@@ -122,10 +115,10 @@ class TaskClient extends CamundaClient
         return false;
     }
 
-    public static function assign(string $id,  string $userId): bool
+    public static function assign(string $id, string $userId): bool
     {
         $response = self::make()->post("task/$id/assignee", [
-            "userId" => $userId
+            'userId' => $userId,
         ]);
 
         if ($response->successful()) {
@@ -135,28 +128,28 @@ class TaskClient extends CamundaClient
         return false;
     }
 
-
     /**
-     * @param string $processInstanceIds
-     *
+     * @param  string  $processInstanceIds
      * @return Task[]
+     *
      * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
      */
-    public static function getByAssignedAndProcessInstanceId($user_id, array $ids = []): array
+    public static function getByAssignedAndProcessInstanceId($userID, array $ids = []): array
     {
-        $payload =   [
-            "assignee" => $user_id
-        ];
+        $payload = ['assignee' => $userID];
+
         if ($ids != []) {
-            $payload['processInstanceIdIn']   = implode(",",  $ids);
+            $payload['processInstanceIdIn'] = implode(',', $ids);
         }
 
-        $response = self::make()->post("task", $payload);
+        $response = self::make()->post('task', $payload);
 
         $data = [];
         if ($response->successful()) {
-            foreach ($response->json() as $task) {
-                $data[] = new Task($task);
+            /** @var array */
+            $array = $response->json();
+            foreach ($array as $task) {
+                $data[] = new TaskData(...$task);
             }
         }
 
@@ -165,9 +158,9 @@ class TaskClient extends CamundaClient
 
     public static function submit(string $id, array $variables): bool
     {
-        $varData = (object)[];
-        if (!empty($variables)) {
-            $varData = (object)$variables;
+        $varData = (object) [];
+        if (! empty($variables)) {
+            $varData = (object) $variables;
         }
         $response = self::make()->post(
             "task/$id/submit-form",
@@ -181,6 +174,9 @@ class TaskClient extends CamundaClient
         throw new CamundaException($response->body(), $response->status());
     }
 
+    /**
+     * @return VariableData[]
+     */
     public static function submitAndReturnVariables(string $id, array $variables): array
     {
         $response = self::make()->post(
@@ -189,7 +185,7 @@ class TaskClient extends CamundaClient
         );
 
         if ($response->status() === 200) {
-            return (new VariablesCaster(['array'], Variable::class))->cast($response->json());
+            return VariableData::fromResponse($response);
         }
 
         throw new CamundaException($response->body(), $response->status());
