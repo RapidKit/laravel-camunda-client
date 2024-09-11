@@ -29,8 +29,7 @@ class TaskHistoryClient extends CamundaClient
         }
 
         /** @var string */
-        $message = $response->json('message');
-
+        $message = $response->json('message') ?? $response->body();
         throw new CamundaException($message);
     }
 
