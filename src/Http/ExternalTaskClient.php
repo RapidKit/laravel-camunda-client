@@ -73,7 +73,7 @@ class ExternalTaskClient extends CamundaClient
         if (! $response->successful()) {
             /** @var array */
             $array = $response->json();
-            throw (new UnexpectedResponseException)->($url, $payload, $array);
+            throw (new UnexpectedResponseException)->for($url, $payload, $array);
         }
 
         $data = [];
